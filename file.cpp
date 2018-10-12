@@ -7,34 +7,32 @@
 
 #include "file.hpp"
 
-
-File::File(std::string filePath) {
-    size_t position = filePath.length() - 1;
-    while (filePath.at(position) != '/') {
-        position -= 1;
-        if(position == 0) break;
+File::File(const std::string t_filePath) {
+    size_t position = t_filePath.length() - 1;
+    while (t_filePath.at(position--) != '/') {
+        if(position == 0) { break; }
     }
-    this->fileName = filePath.substr(position + 1, filePath.length() - position - 1);
-    this->filePath = filePath;
-    this->fileStream.open(filePath);
+    m_fileName = t_filePath.substr(position + 1, t_filePath.length() - position - 1);
+    m_filePath = t_filePath;
+    m_fileStream.open(m_filePath);
 }
 
 File::~File() {
-    fileStream.close();
+    m_fileStream.close();
 }
 
 std::string& File::getFileName(void) {
-    return fileName;
+    return m_fileName;
 }
 
 char File::getNextChar(void) {
     char value = EOF;
-    if (fileStream.is_open() && !fileStream.eof()) {
-        fileStream.get(value);
+    if (m_fileStream.is_open() && !m_fileStream.eof()) {
+        m_fileStream.get(value);
     }
     return value;
 }
 
 bool File::isEof(void) {
-    return !fileStream.is_open() || fileStream.eof(); 
+    return !m_fileStream.is_open() || m_fileStream.eof(); 
 }

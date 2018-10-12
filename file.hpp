@@ -7,12 +7,12 @@
 
 class File {
 private:
-    std::string filePath;
-    std::string fileName;
-    std::ifstream fileStream;
+    std::string m_filePath;
+    std::string m_fileName;
+    std::ifstream m_fileStream;
 
 public:
-    File(std::string filePath);
+    File(const std::string t_filePath);
     ~File();
 
     char getNextChar(void);

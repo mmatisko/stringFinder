@@ -1,6 +1,6 @@
 CXX = clang++
 RM = rm -f
-CPPFLAGS = -std=c++14 -Wall -Werror -Wextra -pedantic-errors  # -stdlib=libc++
+CPPFLAGS = -std=c++14 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
 
 SRC = main.cpp file.cpp searcher.cpp
 OBJ = $(subst .cpp,.o,$(SRC))

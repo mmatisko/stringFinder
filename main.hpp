@@ -8,16 +8,17 @@
 #include "file.hpp"
 #include "searcher.hpp"
 
-void cleanMemory(std::vector<File*>& files);
+void cleanMemory(std::vector<std::shared_ptr<File>>& files);
 
-void processPath(std::vector<File*>& files, std::string pathString);
-void processDirectory(std::vector<File*>& files, std::string dirPath);
-void processFile(std::vector<File*>& files, std::string filePath);
+void processPath(std::vector<std::shared_ptr<File>>& files, std::string t_pathString);
+void processDirectory(std::vector<std::shared_ptr<File>>& files, std::string t_dirPath);
+void processFile(std::vector<std::shared_ptr<File>>& files, const std::string t_filePath);
 
 bool pathIsFile(const char* path);
 bool pathIsDir(const char* path);
+struct stat getPathInfo(const char* t_path);
 
-void searchForPhrase(std::vector<File*>& files, std::string searchedPhrase);
+void searchForPhrase(const std::vector<std::shared_ptr<File>>& files, const std::string t_searchedPhrase);
 
 
 #endif //MAIN_HPP

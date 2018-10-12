@@ -2,26 +2,28 @@
 #define SEARCHER_HPP
 
 #include <cstring>
-#include <vector>
 #include <deque>
+#include <memory>
+#include <vector>
 
 #include "file.hpp"
 
 class Searcher {
 private:
-    std::string phrase;
+    std::string m_phrase;
 
 protected:
-    void loadToBuffer(File* candidate, std::deque<char>& buffer);
-    bool comparePhrases(std::string& first, std::deque<char>& second, unsigned int offset);
-    void Searcher::printPhraseOccurency(File* candidate, std::deque<char>& buffer, unsigned int counter, unsigned short controlDequeOffset);
-    void printPrefixSuffix(std::deque<char>& buffer, unsigned short from, unsigned short to);
+    void loadToBuffer(const std::shared_ptr<File> t_candidate, std::deque<char>& t_buffer);
+    bool comparePhrases(const std::string& t_first, const std::deque<char>& t_second, const unsigned int t_offset);
+    void printPhraseOccurency(const std::shared_ptr<File> t_candidate, const std::deque<char>& t_buffer,
+         const unsigned int t_counter, const unsigned short t_controlDequeOffset);
+    std::string formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, const unsigned short t_to);
 
 public:
-    Searcher(std::string phrase);
+    Searcher(std::string t_phrase);
     ~Searcher();
-    void processSearching(std::vector<File*>& files);
-    void scanFileForPhrase(File* candidate);
+    void processSearching(const std::vector<std::shared_ptr<File>>& t_files);
+    void scanFileForPhrase(const std::shared_ptr<File> t_candidate);
     
 };
 
