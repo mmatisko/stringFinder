@@ -3,6 +3,8 @@
 
 #include <cstring>
 #include <dirent.h>
+#include <errno.h>
+#include <experimental/filesystem>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -16,7 +18,7 @@ int main (int argc, char *argv[]) {
     string path, phrase;
     vector<shared_ptr<File>> files;
 
-    if (cmdArgsTesting(argc, (const char **)argv)){
+    if (cmdArgsTesting(argc, (const char **)argv)) {
         path = argv[1];
         phrase = argv[2];
 
@@ -54,7 +56,7 @@ void processPath(vector<shared_ptr<File>>& t_files, string t_pathString) {
     } else if (pathIsFile(path)) {
         processFile(t_files, t_pathString);
     } else {
-        throw std::invalid_argument("Received invalid second parameter with invalid path!");
+        throw invalid_argument("Received invalid second parameter with invalid path!");
     }
 }
 
@@ -64,13 +66,16 @@ void processDirectory(vector<shared_ptr<File>>& t_files, string t_dirPath) {
     }
     cout << "[DEBUG] Found directory: " << t_dirPath << endl;
     
-    struct dirent* structure;  
+    struct dirent *structure;  
     DIR* directory = opendir(t_dirPath.c_str());
+    checkErrno("opening");
+
+    const char* actualFilePath;
     while ((structure = readdir(directory)) != nullptr) {
         if (strncmp(structure->d_name, ".", 1) != 0 && strncmp(structure->d_name, "..", 2) != 0) {
             string tempString = t_dirPath;
             tempString += string(structure->d_name);
-            const char* actualFilePath = tempString.c_str(); 
+            actualFilePath = tempString.c_str(); 
 
             if (pathIsDir(actualFilePath)) {
                 processDirectory(t_files, actualFilePath);
@@ -81,6 +86,16 @@ void processDirectory(vector<shared_ptr<File>>& t_files, string t_dirPath) {
             }
         }
     }
+    checkErrno("reading");
+        
+    closedir(directory);
+    checkErrno("closing");
+}
+
+void checkErrno(string action) {
+    if (errno != 0)
+        throw runtime_error("Error while " + action + " file directory!");
+
 }
 
 void processFile(vector<shared_ptr<File>>& t_files, const string t_filePath) {

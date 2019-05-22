@@ -15,6 +15,7 @@ void processPath(std::vector<std::shared_ptr<File>>& files, std::string t_pathSt
 void processDirectory(std::vector<std::shared_ptr<File>>& files, std::string t_dirPath);
 void processFile(std::vector<std::shared_ptr<File>>& files, const std::string t_filePath);
 
+void checkErrno(std::string action);
 bool pathIsFile(const char* path);
 bool pathIsDir(const char* path);
 struct stat getPathInfo(const char* t_path);
