@@ -8,6 +8,7 @@
 #include "file.hpp"
 #include "searcher.hpp"
 
+bool cmdArgsTesting(int argc, const char *argv[]);
 void cleanMemory(std::vector<std::shared_ptr<File>>& files);
 
 void processPath(std::vector<std::shared_ptr<File>>& files, std::string t_pathString);

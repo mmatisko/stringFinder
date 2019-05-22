@@ -34,8 +34,11 @@ void Searcher::scanFileForPhrase(const std::shared_ptr<File> t_candidate) {
                     printPhraseOccurency(t_candidate, buffer, counter, controlDequeOffset);
                     break;
                 } else {
-                    tempPhrase = (m_phrase.length() > nextStringPart*8) ? m_phrase.substr(8*nextStringPart, 8) : 
-                                m_phrase.substr(8*nextStringPart, m_phrase.length() - 8*nextStringPart);
+                    if(m_phrase.length() > nextStringPart*8){
+                        tempPhrase = m_phrase.substr(8*nextStringPart, 8);
+                    } else {
+                        tempPhrase = m_phrase.substr(8*nextStringPart, m_phrase.length() - 8*nextStringPart);
+                    }
                 }
             }
             ++controlDequeOffset;
@@ -47,7 +50,7 @@ void Searcher::scanFileForPhrase(const std::shared_ptr<File> t_candidate) {
 }
 
 void Searcher::loadToBuffer(const std::shared_ptr<File> t_candidate, std::deque<char>& t_buffer) {
-    while(t_buffer.size() < 134) {  //to store whole searched phrase with potential maximum lenght
+    while(t_buffer.size() < 134) {
         char currentChar = t_candidate->getNextChar();
         if(currentChar == EOF) {
             break;
@@ -76,7 +79,7 @@ void Searcher::printPhraseOccurency(const std::shared_ptr<File> t_candidate, con
     }
     occurency += "..." + formatPrefixSuffix(t_buffer, m_phrase.length() + t_controlDequeOffset, suffixLimit);
     std::cout << occurency << std::endl;
-    }
+}
 
 std::string Searcher::formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, const unsigned short t_to) {
     std::string result = "";
@@ -84,7 +87,7 @@ std::string Searcher::formatPrefixSuffix(const std::deque<char>& t_buffer, const
         switch(t_buffer[i]){
             case '\n': 
                 result += "\\n"; break;
-            case ' ': 
+            case ' ': // considering four spaces as size of tabular
                 if (t_buffer[i+1] == ' ' && t_buffer[i+2] == ' ' && t_buffer[i+3] == ' ') {
                     i += 3;
                     result += "\\t";
