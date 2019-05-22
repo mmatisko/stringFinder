@@ -18,7 +18,7 @@ int main (int argc, char *argv[]) {
 
     if (cmdArgsTesting(argc, (const char **)argv)){
         path = argv[1];
-        phrase = argv[2]; // TO DO: add verification of params
+        phrase = argv[2];
 
         processPath(files, path);
         searchForPhrase(files, phrase);
@@ -32,11 +32,11 @@ bool cmdArgsTesting(int argc, const char *argv[]) {
             if (strlen(argv[2]) > 2 && strlen(argv[2]) <= 128)
                 return true;
             else 
-                throw std::invalid_argument("Received third parameter with incorrect length!");
+                throw invalid_argument("Received third parameter with incorrect length!");
         else 
-            throw std::invalid_argument("Received second parameter with incorrect length!");
+            throw length_error("Received second parameter with incorrect length!");
     } else
-        throw std::invalid_argument("Received wrong number of cli params: " \
+        throw length_error("Received wrong number of cli params: " \
             "should receive exactly 3 params, for more information see help!");
         
     return false;
