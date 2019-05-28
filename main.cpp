@@ -1,10 +1,10 @@
+#include "filesystem.hpp"
 #include "main.hpp"
 #include "searcher.hpp"
 
 #include <cstring>
 #include <dirent.h>
 #include <errno.h>
-#include <experimental/filesystem>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -16,15 +16,15 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
     string path, phrase;
-    vector<shared_ptr<File>> files;
+    //vector<shared_ptr<File>> files;
 
     if (cmdArgsTesting(argc, (const char **)argv)) {
         path = argv[1];
         phrase = argv[2];
 
-        processPath(files, path);
+        FileVector& files = processPath(path);
         searchForPhrase(files, phrase);
-        cleanMemory(files);
+        //cleanMemory(files);
     } 
 }
 
@@ -44,6 +44,13 @@ bool cmdArgsTesting(int argc, const char *argv[]) {
     return false;
 }
 
+FileVector& processPath(string path) {
+    FileSystem *fs = new FileSystem(path);
+    fs->traversePath();
+    return fs->getFiles();
+}
+
+/*
 void cleanMemory(vector<shared_ptr<File>>& t_files) {
     t_files.clear();
 }
@@ -116,8 +123,9 @@ struct stat getPathInfo(const char* t_path) {
     stat(t_path, &buf);
     return buf;
 }
-
+*/
 void searchForPhrase(const vector<shared_ptr<File>>& t_files, const string t_searchedPhrase) {
     std::shared_ptr<Searcher> searcher = make_shared<Searcher>(t_searchedPhrase);
     searcher->processSearching(t_files);
 }
+

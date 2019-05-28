@@ -87,12 +87,9 @@ std::string Searcher::formatPrefixSuffix(const std::deque<char>& t_buffer, const
         switch(t_buffer[i]){
             case '\n': 
                 result += "\\n"; break;
-            case ' ': // considering four spaces as size of tabular
-                if (t_buffer[i+1] == ' ' && t_buffer[i+2] == ' ' && t_buffer[i+3] == ' ') {
-                    i += 3;
-                    result += "\\t";
-                    break;
-                }
+            case '\t': 
+                result += "\\t";
+                break;
             default:
                 result += t_buffer[i];
         }

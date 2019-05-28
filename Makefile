@@ -1,8 +1,9 @@
 CXX = clang++
 RM = rm -f
-CPPFLAGS = -std=c++14 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
+CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedantic #-stdlib=libc++
+LDFLAGS = -lc++fs  #-v -lc++ -lc++abi -lc++experimental #-lstdc++fs
 
-SRC = main.cpp file.cpp searcher.cpp
+SRC = main.cpp file.cpp searcher.cpp filesystem.cpp
 OBJ = $(subst .cpp,.o,$(SRC))
 
 all: tool
@@ -12,6 +13,7 @@ tool: $(OBJ)
 main.o: main.cpp main.hpp
 file.o: file.cpp file.hpp
 searcher.o: searcher.cpp searcher.hpp
+filesystem.o: filesystem.cpp filesystem.hpp
 
 clean: 
 	$(RM) $(OBJ)
