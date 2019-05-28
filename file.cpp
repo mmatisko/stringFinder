@@ -14,11 +14,17 @@ File::File(const std::string t_filePath) {
     }
     m_fileName = t_filePath.substr(position + 1, t_filePath.length() - position - 1);
     m_filePath = t_filePath;
-    m_fileStream.open(m_filePath);
+    open();
 }
 
 File::~File() {
     m_fileStream.close();
+    m_filePath.clear();
+    m_fileName.clear();
+}
+
+void File::open() {
+    m_fileStream.open(m_filePath);
 }
 
 std::string& File::getFileName(void) {

@@ -7,28 +7,32 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
-#include <vector>
+#include <queue>
+#include <stdexcept>
 
 namespace fs = std::filesystem;
 
-typedef std::vector<std::shared_ptr<File>> FileVector;
+typedef std::shared_ptr<File> FilePtr;
+typedef std::queue<FilePtr> FileQueue;
 
 class FileSystem {
 private:
     std::filesystem::path m_systemPath;
-    FileVector m_files;
+    FileQueue m_files;
+    bool m_traverseComplete;
 
 public:
     FileSystem(const std::string t_systemPath);
     ~FileSystem();
 
     bool pathIsValid(void);
-    FileVector& getFiles(void);
+    FileQueue& getFiles(void);
     
     void traversePath(void);
     void processDirectory(const fs::path& directoryPath);
     void processFile(const fs::path& filePath);
     void processPath(const fs::path& path);
+    bool traversalComplete(void);
 
     FileSystem(const File&) = delete;
     FileSystem& operator=(const File&) = delete;

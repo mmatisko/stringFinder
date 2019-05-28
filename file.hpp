@@ -15,6 +15,7 @@ public:
     File(const std::string t_filePath);
     ~File();
 
+    void open(void); 
     char getNextChar(void);
     bool isEof(void);
     std::string& getFileName(void);
