@@ -27,7 +27,8 @@ void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
         std::string tempPhrase = (m_phrase.length() > 8) ? m_phrase.substr(0, 8) : m_phrase;
         nextStringPart = 1;
 
-        loadToBuffer(t_candidate, buffer);
+        if (buffer.back() != EOF)
+            loadToBuffer(t_candidate, buffer);
         if(buffer.size() < m_phrase.length()) break;
 
         while(controlDequeOffset <= 3) {
@@ -53,8 +54,9 @@ void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
 }
 
 void Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
+    char currentChar;
     while(t_buffer.size() < 134) {
-        char currentChar = t_candidate->getNextChar();
+        currentChar = t_candidate->getNextChar();
         if(currentChar == EOF) {
             break;
         } else {

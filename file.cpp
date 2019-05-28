@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <sstream>
 #include <iterator>
@@ -18,13 +19,21 @@ File::File(const std::string t_filePath) {
 }
 
 File::~File() {
-    m_fileStream.close();
+    try {
+        m_fileStream.close();
+    } catch(const std::ifstream::failure& e) {
+        std::cout << "Exception while closing file: " << e.what() << std::endl;
+    }
     m_filePath.clear();
     m_fileName.clear();
 }
 
 void File::open() {
-    m_fileStream.open(m_filePath);
+    try {
+        m_fileStream.open(m_filePath);
+    } catch(const std::ifstream::failure& e) {
+        std::cout << "Exception while opening file: " << e.what() << std::endl;
+    }
 }
 
 std::string& File::getFileName(void) {
@@ -33,12 +42,16 @@ std::string& File::getFileName(void) {
 
 char File::getNextChar(void) {
     char value = EOF;
-    if (m_fileStream.is_open() && !m_fileStream.eof()) {
-        m_fileStream.get(value);
+    if (!m_fileStream.eof()) {
+        try {
+            m_fileStream.get(value);
+        } catch(const std::ifstream::failure& e) {
+            std::cout << "Exception while reading file: " << e.what() << std::endl;
+        }
     }
     return value;
 }
 
 bool File::isEof(void) {
-    return !m_fileStream.is_open() || m_fileStream.eof(); 
+    return !m_fileStream.good() || m_fileStream.eof(); 
 }

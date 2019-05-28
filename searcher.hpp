@@ -25,7 +25,6 @@ public:
     ~Searcher();
     void processSearching(FileQueue& t_files);
     void scanFileForPhrase(const FilePtr t_candidate);
-    
 };
 
 #endif //SEARCHER_HPP
