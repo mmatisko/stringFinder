@@ -6,9 +6,12 @@
 
 #include "searcher.hpp"
 
+
 Searcher::Searcher(const std::string t_phrase) : m_phrase(t_phrase) {}
 
-Searcher::~Searcher() {}
+Searcher::~Searcher() {
+    m_phrase.clear();
+}
 
 void Searcher::processSearching(FileQueue& t_files) {
     while(!t_files.empty()) {

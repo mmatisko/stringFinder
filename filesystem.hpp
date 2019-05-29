@@ -1,7 +1,6 @@
 #ifndef FILESYSTEM_HPP
 #define FILESYSTEM_HPP
 
-#include "file.hpp"
 #include <cstring>
 #include <fstream>
 #include <filesystem>
@@ -9,6 +8,9 @@
 #include <memory>
 #include <queue>
 #include <stdexcept>
+
+#include "file.hpp"
+
 
 namespace fs = std::filesystem;
 

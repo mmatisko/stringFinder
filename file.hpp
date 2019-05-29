@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstring>
 
+
 class File {
 private:
     std::string m_filePath;

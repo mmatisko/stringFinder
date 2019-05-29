@@ -25,6 +25,9 @@ public:
     ~Searcher();
     void processSearching(FileQueue& t_files);
     void scanFileForPhrase(const FilePtr t_candidate);
+
+    Searcher(const Searcher&) = delete;
+    Searcher& operator=(const Searcher&) = delete;
 };
 
 #endif //SEARCHER_HPP

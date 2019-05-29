@@ -8,6 +8,7 @@
 
 #include "file.hpp"
 
+
 File::File(const std::string t_filePath) {
     size_t position = t_filePath.length() - 1;
     while (t_filePath.at(position) != '/') {

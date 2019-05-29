@@ -1,7 +1,3 @@
-#include "filesystem.hpp"
-#include "main.hpp"
-#include "searcher.hpp"
-
 #include <cstring>
 #include <dirent.h>
 #include <errno.h>
@@ -11,6 +7,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <vector>
+
+#include "filesystem.hpp"
+#include "main.hpp"
+#include "searcher.hpp"
+
 
 using namespace std;
 
