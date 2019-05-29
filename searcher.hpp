@@ -9,6 +9,7 @@
 #include "file.hpp"
 #include "filesystem.hpp"
 
+
 class Searcher {
 private:
     std::string m_phrase;
