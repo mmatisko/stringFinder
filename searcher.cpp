@@ -22,29 +22,30 @@ void Searcher::processSearching(FileQueue& t_files) {
 
 void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
     std::deque<char> buffer;
-    unsigned int counter = 0;
+    unsigned int counter = 0, phraseLength = m_phrase.length();
     unsigned short nextStringPart, controlDequeOffset = 0;
 
-    std::cout << "[DEBUG] Processing file: " << t_candidate->getFileName() << std::endl;
+    Console::printDebugInfo({"Processing file: ", t_candidate->getFileName()});
     do {
-        std::string tempPhrase = (m_phrase.length() > 8) ? m_phrase.substr(0, 8) : m_phrase;
+        std::string tempPhrase = (phraseLength > 8) ? m_phrase.substr(0, 8) : m_phrase;
         nextStringPart = 1;
 
-        if (buffer.back() != EOF)
+        if(buffer.back() != EOF) {
             loadToBuffer(t_candidate, buffer);
-        if(buffer.size() < m_phrase.length()) break;
+        }
+        if(buffer.size() < phraseLength) { break; }
 
         while(controlDequeOffset <= 3) {
-            while(comparePhrases(tempPhrase, buffer, controlDequeOffset + 8*(nextStringPart-1))) {
+            while(comparePhrases(tempPhrase, buffer, controlDequeOffset + 8*(nextStringPart - 1))) {
                 ++nextStringPart;
-                if(m_phrase.length() <= 8*nextStringPart) { // found a phrase
-                    printPhraseOccurency(t_candidate, buffer, counter, controlDequeOffset);
+                if(phraseLength <= 8 * nextStringPart) { // found a phrase
+                    Console::printPhraseOccurency(t_candidate, buffer, counter, controlDequeOffset, phraseLength);
                     break;
                 } else {
-                    if(m_phrase.length() > nextStringPart*8){
-                        tempPhrase = m_phrase.substr(8*nextStringPart, 8);
+                    if(phraseLength > nextStringPart*8) {
+                        tempPhrase = m_phrase.substr(8 * nextStringPart, 8);
                     } else {
-                        tempPhrase = m_phrase.substr(8*nextStringPart, m_phrase.length() - 8*nextStringPart);
+                        tempPhrase = m_phrase.substr(8 * nextStringPart, phraseLength - 8 * nextStringPart);
                     }
                 }
             }
@@ -53,7 +54,7 @@ void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
         }
         buffer.pop_front();
         --controlDequeOffset;
-    } while(!t_candidate->isEof() || (buffer.size() >= m_phrase.length()));
+    } while(!t_candidate->isEof() || (buffer.size() >= phraseLength));
 }
 
 void Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
@@ -70,38 +71,9 @@ void Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffe
 
 bool Searcher::comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset) {
     for(size_t i = 0; i < t_phrase.length(); ++i) {
-        if(t_phrase.at(i) != t_buffer[t_offset + i])
+        if(t_phrase.at(i) != t_buffer[t_offset + i]) {
             return false;
-    }
-    return true;
-}
-
-void Searcher::printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer, 
-        const unsigned int t_counter, const unsigned short t_controlDequeOffset) {
-    const unsigned short suffixLimit = t_buffer.size() >= (m_phrase.length() + 3) ? 
-                                (t_controlDequeOffset + m_phrase.length() + 3) : t_buffer.size();
-    std::cout << t_candidate->getFileName() << "(" << t_counter << "): ";
-    std::string occurency = "";
-    if(t_controlDequeOffset > 0) { 
-        occurency += formatPrefixSuffix(t_buffer, 0, t_controlDequeOffset);
-    }
-    occurency += "..." + formatPrefixSuffix(t_buffer, m_phrase.length() + t_controlDequeOffset, suffixLimit);
-    std::cout << occurency << std::endl;
-}
-
-std::string Searcher::formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, const unsigned short t_to) {
-    std::string result = "";
-    for(unsigned short i = t_from; i < t_to; ++i) {
-        switch(t_buffer[i]){
-            case '\n': 
-                result += "\\n"; 
-                break;
-            case '\t': 
-                result += "\\t";
-                break;
-            default:
-                result += t_buffer[i];
         }
     }
-    return result;
+    return true;
 }

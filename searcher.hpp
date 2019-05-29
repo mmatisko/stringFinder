@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 
+#include "console.hpp"
 #include "file.hpp"
 #include "filesystem.hpp"
 
@@ -17,9 +18,6 @@ private:
 protected:
     void loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer);
     bool comparePhrases(const std::string& t_first, const std::deque<char>& t_second, const unsigned int t_offset);
-    void printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer,
-         const unsigned int t_counter, const unsigned short t_controlDequeOffset);
-    std::string formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, const unsigned short t_to);
 
 public:
     Searcher(const std::string t_phrase);

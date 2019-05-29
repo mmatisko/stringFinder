@@ -27,7 +27,8 @@ int main (int argc, char *argv[]) {
             unique_ptr<Searcher> searcher = make_unique<Searcher>(phrase);
             searcher->processSearching(fs->getFiles());
         } catch(const bad_alloc& e) {
-            cout << "Allocation of objects failed: " << e.what() << '\n';
+            throw runtime_error(e.what());
+            //cout << "Allocation of objects failed: " << e.what() << '\n';
         }
     } 
 }

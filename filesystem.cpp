@@ -1,13 +1,14 @@
 #include <filesystem>
 #include <stdexcept>
 
+#include "console.hpp"
 #include "filesystem.hpp"
 
 
 FileSystem::FileSystem(const std::string t_systemPath) {
     m_systemPath = fs::u8path(t_systemPath);
     if (pathIsValid()) {
-        std::cout << "[DEBUG] Path correct!" << std::endl;
+        Console::printDebugInfo({"Path correct!"});
         traversePath();
     } else {
         throw std::invalid_argument("Received path which does not exist or is unavailable!");
@@ -27,7 +28,7 @@ void FileSystem::traversePath(void) {
 }
 
 void FileSystem::processDirectory(const fs::path& directoryPath) {
-    std::cout << "[DEBUG] Processing folder: " << directoryPath.u8string() << std::endl;
+    Console::printDebugInfo({"Processing folder: ", directoryPath.u8string()});
     for (const auto& entry : fs::directory_iterator(directoryPath)) {
         processPath(entry.path());
     }
@@ -39,10 +40,11 @@ void FileSystem::processFile(const fs::path& filePath) {
         auto file = std::make_shared<File>(filePath.u8string());
         m_files.push(file);
     } catch(const std::bad_alloc& e) {
-        std::cout << "Allocation of objects failed: " << e.what() << '\n';
+        //throw std::runtime_error("Allocation of objects failed: " + e.what() + '\n');
+        throw std::runtime_error(e.what());
     }
     
-    std::cout << "[DEBUG] File found! Adding to processing path " << filename << std::endl;
+    Console::printDebugInfo({"File found! Adding to processing path", filename});
 }
 
 void FileSystem::processPath(const fs::path& path) {
