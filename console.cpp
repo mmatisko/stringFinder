@@ -15,7 +15,7 @@ void Console::printDebugInfo(std::initializer_list<std::string> messagePart) {
 void Console::printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer, const unsigned int t_counter, 
         const unsigned short t_controlDequeOffset, const unsigned int phraseLength) {
     std::string occurency = "";        
-    const unsigned short suffixLimit = t_buffer.size() >= (phraseLength+ 3) ? 
+    const unsigned short suffixLimit = (t_buffer.size() >= (phraseLength + 3)) ? 
                                 (t_controlDequeOffset + phraseLength + 3) : t_buffer.size();
     if(t_controlDequeOffset > 0) { 
         occurency += formatPrefixSuffix(t_buffer, 0, t_controlDequeOffset);

@@ -22,32 +22,33 @@ void Searcher::processSearching(FileQueue& t_files) {
 
 void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
     std::deque<char> buffer;
+    const unsigned short partSize = 8;
     unsigned int counter = 0, phraseLength = m_phrase.length();
     unsigned short nextStringPart, controlDequeOffset = 0;
 
     Console::printDebugInfo({"Processing file: ", t_candidate->getFileName()});
     do {
-        std::string tempPhrase = (phraseLength > 8) ? m_phrase.substr(0, 8) : m_phrase;
+        std::string tempPhrase = (phraseLength > partSize) ? m_phrase.substr(0, partSize) : m_phrase;
         nextStringPart = 1;
 
-        if(buffer.back() != EOF) {
+        if(buffer.back() != EOF) {  // previously reached EOF, not any chars to read
             loadToBuffer(t_candidate, buffer);
         }
         if(buffer.size() < phraseLength) { break; }
 
-        while(controlDequeOffset <= 3) {
-            while(comparePhrases(tempPhrase, buffer, controlDequeOffset + 8*(nextStringPart - 1))) {
-                ++nextStringPart;
-                if(phraseLength <= 8 * nextStringPart) { // found a phrase
+        while(controlDequeOffset <= 3) {  // prefix offset
+            while(comparePhrases(tempPhrase, buffer, controlDequeOffset + partSize * (nextStringPart - 1))) {
+                if(phraseLength <= (nextStringPart * partSize)) { // found a phrase
                     Console::printPhraseOccurency(t_candidate, buffer, counter, controlDequeOffset, phraseLength);
                     break;
-                } else {
-                    if(phraseLength > nextStringPart*8) {
-                        tempPhrase = m_phrase.substr(8 * nextStringPart, 8);
-                    } else {
-                        tempPhrase = m_phrase.substr(8 * nextStringPart, phraseLength - 8 * nextStringPart);
+                } else {  // check next part of searched string
+                    if(phraseLength > ((nextStringPart + 1) * partSize)) {  // next part have full size
+                        tempPhrase = m_phrase.substr(partSize * nextStringPart, partSize); 
+                    } else {  // next part is last with reduced size
+                        tempPhrase = m_phrase.substr(partSize * nextStringPart, phraseLength - (partSize * nextStringPart));
                     }
                 }
+                ++nextStringPart;
             }
             ++controlDequeOffset;
             ++counter;
@@ -59,7 +60,7 @@ void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
 
 void Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
     char currentChar;
-    while(t_buffer.size() < 134) {
+    while(t_buffer.size() < 128) {
         currentChar = t_candidate->getNextChar();
         if(currentChar == EOF) {
             break;

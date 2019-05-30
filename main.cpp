@@ -34,13 +34,13 @@ int main (int argc, char *argv[]) {
 
 bool cmdArgsTesting(int argc, const char *argv[]) {
     if (argc == 3) {
-        if (strlen(argv[1]) > 1)
-            if (strlen(argv[2]) > 2 && strlen(argv[2]) <= 128)
+        if (strlen(argv[1]) > 2 && strlen(argv[1]) <= 128)
+            if (strlen(argv[2]) > 2)
                 return true;
             else 
-                throw invalid_argument("Received third cmd parameter with incorrect length!");
+                throw invalid_argument("Received third cmd parameter (path) with incorrect length!");
         else 
-            throw length_error("Received cmd second parameter with incorrect length!");
+            throw length_error("Received cmd second parameter (phrase) with incorrect length!");
     } else
         throw length_error("Received wrong number of cmd params: " \
             "should receive exactly 3 params, for more information see help!");
