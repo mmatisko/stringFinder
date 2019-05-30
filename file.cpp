@@ -50,7 +50,7 @@ std::string& File::getFileName(void) {
 
 char File::getNextChar(void) {
     char value = EOF;
-    if (m_fileStream.hasCharToRead()) {
+    if (this->hasCharToRead()) {
         try {
             m_fileStream.get(value);
         } catch(const std::ifstream::failure& e) {

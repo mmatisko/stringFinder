@@ -35,7 +35,7 @@ int main (int argc, char *argv[]) {
 bool cmdArgsTesting(int argc, const char *argv[]) {
     if (argc == 3) {
         if (strlen(argv[1]) > 2 && strlen(argv[1]) <= 128)
-            if (strlen(argv[2]) > 2)
+            if (strlen(argv[2]) > 2 && strlen(argv[2]) <= 1000)
                 return true;
             else 
                 throw invalid_argument("Received third cmd parameter (path) with incorrect length!");

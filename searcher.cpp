@@ -22,7 +22,7 @@ void Searcher::processSearching(FileQueue& t_files) {
 
 void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
     std::deque<char> buffer;
-    const unsigned short partSize = 8;
+    const unsigned short partSize = 10;
     unsigned int counter = 0, phraseLength = m_phrase.length();
     unsigned short nextStringPart, controlDequeOffset = 0;
 
@@ -55,12 +55,12 @@ void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
         }
         buffer.pop_front();
         --controlDequeOffset;
-    } while(!t_candidate->isEof() || (buffer.size() >= phraseLength));
+    } while(t_candidate->hasCharToRead() || (buffer.size() >= phraseLength));
 }
 
 void Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
     char currentChar;
-    while(t_buffer.size() < 128) {
+    while(t_buffer.size() < 1000) {
         currentChar = t_candidate->getNextChar();
         if(currentChar == EOF) {
             break;
