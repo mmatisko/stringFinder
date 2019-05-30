@@ -17,14 +17,19 @@ File::File(const std::string t_filePath) {
     }
     m_fileName = t_filePath.substr(position + 1, t_filePath.length() - position - 1);
     m_filePath = t_filePath;
-    open();
+    try {
+        open();
+    } catch(const std::runtime_error& err) {
+        std::cout << err.what() << std::endl;
+    }
 }
 
 File::~File() {
     try {
         m_fileStream.close();
     } catch(const std::ifstream::failure& e) {
-        throw std::runtime_error("Exception while closing file " + m_filePath + " : " + e.what() + "\n");
+        //throw std::runtime_error("Exception while closing file " + m_filePath + " : " + e.what() + "\n");
+        std::cout << "Exception while closing file " << m_filePath << " : " << e.what() << std::endl;
     }
     m_filePath.clear();
     m_fileName.clear();
@@ -34,7 +39,8 @@ void File::open() {
     try {
         m_fileStream.open(m_filePath);
     } catch(const std::ifstream::failure& e) {
-        throw std::runtime_error("Exception while opening file " + m_filePath + " : " + e.what() + "\n");
+        //throw std::runtime_error("Exception while opening file " + m_filePath + " : " + e.what() + "\n");
+        std::cout << "Exception while opening file " << m_filePath << " : " << e.what() << std::endl;
     }
 }
 
@@ -48,7 +54,8 @@ char File::getNextChar(void) {
         try {
             m_fileStream.get(value);
         } catch(const std::ifstream::failure& e) {
-            throw std::runtime_error("Exception while reading file " + m_filePath + " : " + e.what() + "\n");
+            //throw std::runtime_error("Exception while reading file " + m_filePath + " : " + e.what() + "\n");
+            std::cout << "Exception while reading file " << m_filePath << " : " << e.what() << std::endl;
         }
     }
     return value;
