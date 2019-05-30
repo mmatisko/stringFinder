@@ -18,7 +18,7 @@ public:
 
     void open(void); 
     char getNextChar(void);
-    bool isEof(void);
+    bool hasCharToRead(void);
     std::string& getFileName(void);
 
     File(const File&) = delete;
