@@ -28,7 +28,6 @@ int main (int argc, char *argv[]) {
             searcher->processSearching(fs->getFiles());
         } catch(const bad_alloc& e) {
             throw runtime_error(e.what());
-            //cout << "Allocation of objects failed: " << e.what() << '\n';
         }
     } 
 }

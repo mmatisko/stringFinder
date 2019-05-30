@@ -40,11 +40,10 @@ void FileSystem::processFile(const fs::path& filePath) {
         auto file = std::make_shared<File>(filePath.u8string());
         m_files.push(file);
     } catch(const std::bad_alloc& e) {
-        //throw std::runtime_error("Allocation of objects failed: " + e.what() + '\n');
         throw std::runtime_error(e.what());
     }
     
-    Console::printDebugInfo({"File found! Adding to processing path", filename});
+    Console::printDebugInfo({"File found! Adding to processing file: ", filePath});
 }
 
 void FileSystem::processPath(const fs::path& path) {
