@@ -20,7 +20,7 @@ protected:
     bool comparePhrases(const std::string& t_first, const std::deque<char>& t_second, const unsigned int t_offset);
 
 public:
-    Searcher(const std::string t_phrase);
+    explicit Searcher(const std::string t_phrase);
     ~Searcher();
     void processSearching(FileQueue& t_files);
     void scanFileForPhrase(const FilePtr t_candidate);

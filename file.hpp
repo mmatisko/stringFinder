@@ -13,7 +13,7 @@ private:
     std::ifstream m_fileStream;
 
 public:
-    File(const std::string t_filePath);
+    explicit File(const std::string t_filePath);
     ~File();
 
     void open(void); 

@@ -24,7 +24,7 @@ private:
     bool m_traverseComplete;
 
 public:
-    FileSystem(const std::string t_systemPath);
+    explicit FileSystem(const std::string t_systemPath);
     ~FileSystem();
 
     bool pathIsValid(void);
