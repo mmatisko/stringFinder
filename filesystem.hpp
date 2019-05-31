@@ -36,8 +36,12 @@ public:
     void processPath(const fs::path& path);
     bool traversalComplete(void);
 
-    FileSystem(const File&) = delete;
-    FileSystem& operator=(const File&) = delete;
+    // make class non-copyable
+    FileSystem(const FileSystem& f) = delete;
+    FileSystem& operator=(const FileSystem& f) = delete;
+    // make class non-movable
+    FileSystem(const FileSystem&& f) = delete;
+    FileSystem& operator=(const FileSystem&& f) = delete;
 };
 
 #endif //FILESYSTEM_HPP

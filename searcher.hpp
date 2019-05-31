@@ -25,8 +25,12 @@ public:
     void processSearching(FileQueue& t_files);
     void scanFileForPhrase(const FilePtr t_candidate);
 
+    // make class non-copyable
     Searcher(const Searcher&) = delete;
     Searcher& operator=(const Searcher&) = delete;
+    // make class non-movable
+    Searcher(const Searcher&& s) = delete;
+    Searcher& operator=(const Searcher&& s) = delete;
 };
 
 #endif //SEARCHER_HPP

@@ -18,8 +18,11 @@ public:
 
 private:
     Console() = delete;
-    Console(const Console&) = delete;
-    Console& operator=(const Console&) = delete;
+    Console(const Console& c) = delete;
+    Console& operator=(const Console& c) = delete;
+
+    Console(const Console&& c) = delete;
+    Console& operator=(const Console&& c) = delete;
 };
 
 #endif //CONSOLE_HPP

@@ -21,8 +21,12 @@ public:
     bool hasCharToRead(void);
     std::string& getFileName(void);
 
+    // make class non-copyable
     File(const File&) = delete;
     File& operator=(const File&) = delete;
+    // make class non-movable
+    File(const File&& f) = delete;
+    File& operator=(const File&& f) = delete;
 };
 
 #endif //FILE_HPP
