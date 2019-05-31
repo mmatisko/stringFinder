@@ -6,9 +6,7 @@
 #include <memory>
 #include <vector>
 
-#include "console.hpp"
 #include "file.hpp"
-#include "filesystem.hpp"
 
 
 class Searcher {

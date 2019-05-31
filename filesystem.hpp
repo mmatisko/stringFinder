@@ -5,17 +5,12 @@
 #include <fstream>
 #include <filesystem>
 #include <iostream>
-#include <memory>
-#include <queue>
 #include <stdexcept>
 
 #include "file.hpp"
 
 
 namespace fs = std::filesystem;
-
-typedef std::shared_ptr<File> FilePtr;
-typedef std::queue<FilePtr> FileQueue;
 
 class FileSystem {
 private:

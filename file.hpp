@@ -1,9 +1,11 @@
 #ifndef FILE_HPP
 #define FILE_HPP
 
+#include <cstring>
 #include <iostream>
 #include <fstream>
-#include <cstring>
+#include <memory>
+#include <queue>
 
 
 class File {
@@ -28,5 +30,8 @@ public:
     File(const File&& f) = delete;
     File& operator=(const File&& f) = delete;
 };
+
+typedef std::shared_ptr<File> FilePtr;
+typedef std::queue<FilePtr> FileQueue;
 
 #endif //FILE_HPP
