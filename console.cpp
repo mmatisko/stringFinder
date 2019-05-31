@@ -4,7 +4,7 @@
 #include "filesystem.hpp"
 
 
-void Console::printDebugInfo(std::initializer_list<std::string> messagePart) {
+void Console::printDebugInfo(const std::initializer_list<std::string> messagePart) {
     std::cout << "[DEBUG] ";
     for( auto elem : messagePart ) {
         std::cout << elem;
