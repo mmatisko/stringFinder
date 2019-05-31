@@ -5,8 +5,8 @@
 #include <iostream>
 #include <vector>
 
-#include "file.hpp"
-#include "searcher.hpp"
+//#include "file.hpp"
+//#include "searcher.hpp"
 
 
 bool cmdArgsTesting(int argc, const char *argv[]);

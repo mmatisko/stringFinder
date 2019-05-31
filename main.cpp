@@ -1,4 +1,5 @@
 #include <cstring>
+#include <ctime>
 #include <dirent.h>
 #include <errno.h>
 #include <iostream>
@@ -8,6 +9,7 @@
 #include <sys/types.h>
 #include <vector>
 
+#include "console.hpp"
 #include "filesystem.hpp"
 #include "main.hpp"
 #include "searcher.hpp"
@@ -18,6 +20,7 @@ using namespace std;
 int main (int argc, char *argv[]) {
     string path, phrase;
 
+    clock_t begin = clock();
     if (cmdArgsTesting(argc, (const char **)argv)) {
         path = argv[1];
         phrase = argv[2];
@@ -30,6 +33,9 @@ int main (int argc, char *argv[]) {
             throw runtime_error(e.what());
         }
     } 
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    Console::printDebugInfo({"Elapsed time: ", std::to_string(elapsed_secs), "s"});
 }
 
 bool cmdArgsTesting(int argc, const char *argv[]) {
