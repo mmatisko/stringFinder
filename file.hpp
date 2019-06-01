@@ -13,6 +13,12 @@ private:
     std::string m_filePath;
     std::string m_fileName;
     std::ifstream m_fileStream;
+    short bufferIndex = 0;
+    constexpr static short bufferLength = 1000;
+    std::unique_ptr<char[]> readBuffer;
+
+protected:
+    void cacheBuffer(void);
 
 public:
     explicit File(const std::string t_filePath);
