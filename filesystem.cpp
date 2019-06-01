@@ -17,7 +17,7 @@ FileSystem::FileSystem(const std::string t_system_path) {
 
 FileSystem::~FileSystem() {}
 
-bool FileSystem::pathIsValid(void) {
+bool FileSystem::pathIsValid(void) const {
     return fs::exists(m_system_path);
 }
 
@@ -52,7 +52,7 @@ void FileSystem::processPath(const fs::path& t_path) {
     }
 }
 
-bool FileSystem::traversalComplete(void) {
+bool FileSystem::traversalComplete(void) const {
     return m_traverse_complete;
 }
 

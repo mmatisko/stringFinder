@@ -22,14 +22,14 @@ public:
     explicit FileSystem(const std::string t_system_path);
     ~FileSystem();
 
-    bool pathIsValid(void);
+    bool pathIsValid(void) const;
     FileQueue& getFiles(void);
     
     void traversePath(void);
     void processDirectory(const fs::path& t_directory_path);
     void processFile(const fs::path& t_file_path);
     void processPath(const fs::path& t_path);
-    bool traversalComplete(void);
+    bool traversalComplete(void) const;
 
     // make class non-copyable
     FileSystem(const FileSystem& f) = delete;

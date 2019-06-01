@@ -29,7 +29,6 @@ File::~File() {
     try {
         m_file_stream.close();
     } catch(const std::ifstream::failure& e) {
-        //throw std::runtime_error("Exception while closing file " + m_filePath + " : " + e.what() + "\n");
         std::cout << "Exception while closing file " << m_file_path << " : " << e.what() << std::endl;
     }
     m_file_path.clear();
@@ -40,7 +39,6 @@ void File::open() {
     try {
         m_file_stream.open(m_file_path);
     } catch(const std::ifstream::failure& e) {
-        //throw std::runtime_error("Exception while opening file " + m_filePath + " : " + e.what() + "\n");
         std::cout << "Exception while opening file " << m_file_path << " : " << e.what() << std::endl;
     }
 }
@@ -49,7 +47,7 @@ std::string& File::getFileName(void) {
     return m_file_name;
 }
 
-bool File::hasCharToRead(void) {
+bool File::hasCharToRead(void) const {
     return m_file_stream.good(); 
 }
 

@@ -26,7 +26,7 @@ public:
 
     void open(void); 
     char getNextChar(void);
-    bool hasCharToRead(void);
+    bool hasCharToRead(void) const;
     std::string& getFileName(void);
 
     // make class non-copyable

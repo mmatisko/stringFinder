@@ -4,16 +4,8 @@
 #include "filesystem.hpp"
 
 
-void Console::printDebugInfo(const std::initializer_list<std::string> t_messagePart) {
-    std::cout << "[DEBUG] ";
-    for( auto elem : t_messagePart ) {
-        std::cout << elem;
-    }
-    std::cout << std::endl;
-}
-
 void Console::printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer, const unsigned int t_counter, 
-        const unsigned short t_controlDequeOffset, const unsigned int t_phraseLength) {
+const unsigned short t_controlDequeOffset, const unsigned int t_phraseLength) {
     std::string occurency = "";        
     const unsigned short suffixLimit = (t_buffer.size() >= (t_phraseLength + 3)) ? 
                                 (t_controlDequeOffset + t_phraseLength + 3) : t_buffer.size();
@@ -24,18 +16,22 @@ void Console::printPhraseOccurency(const FilePtr t_candidate, const std::deque<c
     std::cout << t_candidate->getFileName() << "(" << t_counter << "): " << occurency << std::endl;
 }
 
-std::string Console::formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, const unsigned short t_to) {
+std::string Console::formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, 
+const unsigned short t_to) {
     std::string result = "";
     for(unsigned short i = t_from; i < t_to; ++i) {
         switch(t_buffer[i]){
-            case '\n': 
+            case '\n': {
                 result += "\\n"; 
                 break;
-            case '\t': 
+            }
+            case '\t': { 
                 result += "\\t";
                 break;
-            default:
+            }
+            default: {
                 result += t_buffer[i];
+            }
         }
     }
     return result;

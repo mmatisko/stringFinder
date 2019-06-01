@@ -12,11 +12,12 @@
 class Console {
 public:
     static void printDebugInfo(const std::initializer_list<std::string> t_messagePart);
-    static void printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer, const unsigned int t_counter, 
-        const unsigned short t_controlDequeOffset, const unsigned int t_phraseLength); 
+    static void printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer, 
+        const unsigned int t_counter, const unsigned short t_controlDequeOffset, const unsigned int t_phraseLength); 
 
 private:
-    static std::string formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, const unsigned short t_to);
+    static std::string formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned short t_from, 
+        const unsigned short t_to);
 
     // make object from class non-creatable
     Console() = delete;
@@ -29,3 +30,12 @@ private:
 };
 
 #endif //CONSOLE_HPP
+
+
+inline void Console::printDebugInfo(const std::initializer_list<std::string> t_messagePart) {
+    std::cout << "[DEBUG] ";
+    for( auto elem : t_messagePart ) {
+        std::cout << elem;
+    }
+    std::cout << std::endl;
+}
