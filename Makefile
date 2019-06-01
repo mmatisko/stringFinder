@@ -1,6 +1,6 @@
 CXX = clang++
 RM = rm -f
-CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedantic #-stdlib=libc++
+CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -g -O2 #-stdlib=libc++
 LDFLAGS = -lc++fs  #-v -lc++ -lc++abi -lc++experimental #-lstdc++fs
 
 SRC = main.cpp file.cpp searcher.cpp filesystem.cpp console.cpp
