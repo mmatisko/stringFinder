@@ -1,11 +1,4 @@
-#include <cstring>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <sstream>
-#include <iterator>
-#include <vector>
-
+#include "console.hpp"
 #include "file.hpp"
 
 
@@ -29,7 +22,7 @@ StringFinder::File::~File() {
     try {
         m_file_stream.close();
     } catch(const std::ifstream::failure& e) {
-        std::cout << "Exception while closing file " << m_file_path << " : " << e.what() << std::endl;
+        Console::printNonCrashException({"Exception while closing file ", m_file_path, " : ", e.what()});
     }
     m_file_path.clear();
     m_file_name.clear();
@@ -39,7 +32,7 @@ void StringFinder::File::open() {
     try {
         m_file_stream.open(m_file_path);
     } catch(const std::ifstream::failure& e) {
-        std::cout << "Exception while opening file " << m_file_path << " : " << e.what() << std::endl;
+        Console::printNonCrashException({"Exception while opening file ", m_file_path, " : ", e.what()});
     }
 }
 
@@ -68,7 +61,7 @@ void StringFinder::File::cacheBuffer(void) {
             m_file_stream.read(m_read_buffer.get(), BUFFER_LENGTH);
             m_buffer_index = 0;
         } catch(const std::ifstream::failure& e) {
-            std::cout << "Exception while reading file " << m_file_path << " : " << e.what() << std::endl;
+            Console::printNonCrashException({"Exception while reading file ", m_file_path, " : ", e.what()});
         }
     }
 }

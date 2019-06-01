@@ -1,13 +1,6 @@
-#include <cstring>
 #include <ctime>
-#include <dirent.h>
-#include <errno.h>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <vector>
 
 #include "console.hpp"
 #include "filesystem.hpp"

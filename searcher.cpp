@@ -1,9 +1,3 @@
-#include <algorithm>
-#include <functional>
-#include <cstdio>
-#include <cstring>
-#include <deque>
-
 #include "console.hpp"
 #include "searcher.hpp"
 

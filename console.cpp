@@ -1,18 +1,15 @@
-#include <iostream>
-
 #include "console.hpp"
-#include "filesystem.hpp"
 
 
 void StringFinder::Console::printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer, const unsigned int t_counter, 
-const unsigned short t_controlDequeOffset, const unsigned int t_phraseLength) {
+const unsigned short t_control_deque_offset, const unsigned int t_phrase_length) {
     std::string occurency = "";        
-    const unsigned short suffixLimit = (t_buffer.size() >= (t_phraseLength + 3)) ? 
-                                (t_controlDequeOffset + t_phraseLength + 3) : t_buffer.size();
-    if(t_controlDequeOffset > 0) { 
-        occurency += formatPrefixSuffix(t_buffer, 0, t_controlDequeOffset);
+    const unsigned short suffixLimit = (t_buffer.size() >= (t_phrase_length + 3)) ? 
+                                (t_control_deque_offset + t_phrase_length + 3) : t_buffer.size();
+    if(t_control_deque_offset > 0) { 
+        occurency += formatPrefixSuffix(t_buffer, 0, t_control_deque_offset);
     }
-    occurency += "..." + formatPrefixSuffix(t_buffer, t_phraseLength + t_controlDequeOffset, suffixLimit);
+    occurency += "..." + formatPrefixSuffix(t_buffer, t_phrase_length + t_control_deque_offset, suffixLimit);
     std::cout << t_candidate->getFileName() << "(" << t_counter << "): " << occurency << std::endl;
 }
 
