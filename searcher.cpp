@@ -8,20 +8,20 @@
 #include "searcher.hpp"
 
 
-Searcher::Searcher(const std::string t_phrase) : m_phrase(t_phrase) {}
+StringFinder::Searcher::Searcher(const std::string t_phrase) : m_phrase(t_phrase) {}
 
-Searcher::~Searcher() {
+StringFinder::Searcher::~Searcher() {
     m_phrase.clear();
 }
 
-void Searcher::processSearching(FileQueue& t_files) {
+void StringFinder::Searcher::processSearching(FileQueue& t_files) {
     while(!t_files.empty()) {
         scanFileForPhrase(t_files.front());
         t_files.pop();
     }
 }
 
-void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
+void StringFinder::Searcher::scanFileForPhrase(const FilePtr t_candidate) {
     std::deque<char> buffer;
     unsigned int counter = 0, phraseLength = m_phrase.length();
     unsigned short nextStringPart, controlDequeOffset = 0;
@@ -58,7 +58,7 @@ void Searcher::scanFileForPhrase(const FilePtr t_candidate) {
     } while(t_candidate->hasCharToRead() || (buffer.size() >= phraseLength));
 }
 
-void Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
+void StringFinder::Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
     char currentChar;
     while(t_buffer.size() < BUFFER_SIZE) {
         currentChar = t_candidate->getNextChar();
@@ -70,7 +70,7 @@ void Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffe
     }
 }
 
-bool Searcher::comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset) {
+bool StringFinder::Searcher::comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset) {
     for(size_t i = 0; i < t_phrase.length(); ++i) {
         if(t_phrase.at(i) != t_buffer[t_offset + i]) {
             return false;

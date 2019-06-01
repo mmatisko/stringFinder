@@ -26,8 +26,8 @@ int main (int argc, char *argv[]) {
         phrase = argv[2];
 
         try {
-            unique_ptr<FileSystem> fs = make_unique<FileSystem>(path);
-            unique_ptr<Searcher> searcher = make_unique<Searcher>(phrase);
+            unique_ptr<StringFinder::FileSystem> fs = make_unique<StringFinder::FileSystem>(path);
+            unique_ptr<StringFinder::Searcher> searcher = make_unique<StringFinder::Searcher>(phrase);
             searcher->processSearching(fs->getFiles());
         } catch(const bad_alloc& e) {
             throw runtime_error(e.what());
@@ -35,7 +35,7 @@ int main (int argc, char *argv[]) {
     } 
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-    Console::printDebugInfo({"Elapsed time: ", std::to_string(elapsed_secs), "s"});
+    StringFinder::Console::printDebugInfo({"Elapsed time: ", std::to_string(elapsed_secs), "s"});
 }
 
 bool cmdArgsTesting(int argc, const char *argv[]) {
