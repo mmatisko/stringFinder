@@ -4,23 +4,23 @@
 #include "filesystem.hpp"
 
 
-void Console::printDebugInfo(const std::initializer_list<std::string> messagePart) {
+void Console::printDebugInfo(const std::initializer_list<std::string> t_messagePart) {
     std::cout << "[DEBUG] ";
-    for( auto elem : messagePart ) {
+    for( auto elem : t_messagePart ) {
         std::cout << elem;
     }
     std::cout << std::endl;
 }
 
 void Console::printPhraseOccurency(const FilePtr t_candidate, const std::deque<char>& t_buffer, const unsigned int t_counter, 
-        const unsigned short t_controlDequeOffset, const unsigned int phraseLength) {
+        const unsigned short t_controlDequeOffset, const unsigned int t_phraseLength) {
     std::string occurency = "";        
-    const unsigned short suffixLimit = (t_buffer.size() >= (phraseLength + 3)) ? 
-                                (t_controlDequeOffset + phraseLength + 3) : t_buffer.size();
+    const unsigned short suffixLimit = (t_buffer.size() >= (t_phraseLength + 3)) ? 
+                                (t_controlDequeOffset + t_phraseLength + 3) : t_buffer.size();
     if(t_controlDequeOffset > 0) { 
         occurency += formatPrefixSuffix(t_buffer, 0, t_controlDequeOffset);
     }
-    occurency += "..." + formatPrefixSuffix(t_buffer, phraseLength + t_controlDequeOffset, suffixLimit);
+    occurency += "..." + formatPrefixSuffix(t_buffer, t_phraseLength + t_controlDequeOffset, suffixLimit);
     std::cout << t_candidate->getFileName() << "(" << t_counter << "): " << occurency << std::endl;
 }
 

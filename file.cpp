@@ -9,15 +9,15 @@
 #include "file.hpp"
 
 
-File::File(const std::string t_filePath) {
-    size_t position = t_filePath.length() - 1;
-    while (t_filePath.at(position) != '/') {
+File::File(const std::string t_file_path) {
+    size_t position = t_file_path.length() - 1;
+    while (t_file_path.at(position) != '/') {
         --position;
         if(position == 0) { break; }
     }
-    m_fileName = t_filePath.substr(position + 1, t_filePath.length() - position - 1);
-    m_filePath = t_filePath;
-    readBuffer = std::make_unique<char[]>(bufferLength);
+    m_file_name = t_file_path.substr(position + 1, t_file_path.length() - position - 1);
+    m_file_path = t_file_path;
+    m_read_buffer = std::make_unique<char[]>(BUFFER_LENGTH);
     try {
         open();
     } catch(const std::runtime_error& err) {
@@ -27,39 +27,39 @@ File::File(const std::string t_filePath) {
 
 File::~File() {
     try {
-        m_fileStream.close();
+        m_file_stream.close();
     } catch(const std::ifstream::failure& e) {
         //throw std::runtime_error("Exception while closing file " + m_filePath + " : " + e.what() + "\n");
-        std::cout << "Exception while closing file " << m_filePath << " : " << e.what() << std::endl;
+        std::cout << "Exception while closing file " << m_file_path << " : " << e.what() << std::endl;
     }
-    m_filePath.clear();
-    m_fileName.clear();
+    m_file_path.clear();
+    m_file_name.clear();
 }
 
 void File::open() {
     try {
-        m_fileStream.open(m_filePath);
+        m_file_stream.open(m_file_path);
     } catch(const std::ifstream::failure& e) {
         //throw std::runtime_error("Exception while opening file " + m_filePath + " : " + e.what() + "\n");
-        std::cout << "Exception while opening file " << m_filePath << " : " << e.what() << std::endl;
+        std::cout << "Exception while opening file " << m_file_path << " : " << e.what() << std::endl;
     }
 }
 
 std::string& File::getFileName(void) {
-    return m_fileName;
+    return m_file_name;
 }
 
 bool File::hasCharToRead(void) {
-    return m_fileStream.good(); 
+    return m_file_stream.good(); 
 }
 
 char File::getNextChar(void) {
-    if (bufferIndex == bufferLength) {
+    if (m_buffer_index == BUFFER_LENGTH) {
         cacheBuffer();
     }
-    char nextChar = readBuffer[bufferIndex];
+    char nextChar = m_read_buffer[m_buffer_index];
     if (nextChar != EOF) {
-        ++bufferIndex;
+        ++m_buffer_index;
     }
     return nextChar;
 }
@@ -67,10 +67,10 @@ char File::getNextChar(void) {
 void File::cacheBuffer(void) {
     if (this->hasCharToRead()) {
         try {
-            m_fileStream.read(readBuffer.get(), bufferLength);
-            bufferIndex = 0;
+            m_file_stream.read(m_read_buffer.get(), BUFFER_LENGTH);
+            m_buffer_index = 0;
         } catch(const std::ifstream::failure& e) {
-            std::cout << "Exception while reading file " << m_filePath << " : " << e.what() << std::endl;
+            std::cout << "Exception while reading file " << m_file_path << " : " << e.what() << std::endl;
         }
     }
 }

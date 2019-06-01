@@ -10,18 +10,18 @@
 
 class File {
 private:
-    std::string m_filePath;
-    std::string m_fileName;
-    std::ifstream m_fileStream;
-    short bufferIndex = 0;
-    constexpr static short bufferLength = 1000;
-    std::unique_ptr<char[]> readBuffer;
+    std::string m_file_path;
+    std::string m_file_name;
+    std::ifstream m_file_stream;
+    short m_buffer_index = 0;
+    constexpr static short BUFFER_LENGTH = 1000;
+    std::unique_ptr<char[]> m_read_buffer;
 
 protected:
     void cacheBuffer(void);
 
 public:
-    explicit File(const std::string t_filePath);
+    explicit File(const std::string t_file_path);
     ~File();
 
     void open(void); 
