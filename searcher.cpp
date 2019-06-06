@@ -26,10 +26,10 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr t_candidate) {
         temp_phrase = (phrase_length > PART_SIZE) ? m_phrase.substr(0, PART_SIZE) : m_phrase;
         next_string_part = 1;
 
-        if(buffer.empty() || buffer.back() != EOF) {  // previously reached EOF, not any chars to read
+        if(buffer.size() < phrase_length && buffer.back() != EOF) {  // previously reached EOF, not any chars to read
             loadToBuffer(t_candidate, buffer);
+            if(buffer.size() < phrase_length) { break; }
         }
-        if(buffer.size() < phrase_length) { break; }
 
         for(;control_deque_offset <= 3; ++control_deque_offset) {   //for(;;) { //control_deque_offset <= 3;) {  // prefix offset
             while(comparePhrases(temp_phrase, buffer, control_deque_offset + PART_SIZE * (next_string_part - 1))) {
@@ -61,7 +61,7 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr t_candidate) {
         }
         buffer.pop_front();
         --control_deque_offset;
-    } while(t_candidate->hasCharToRead() || (buffer.size() >= phrase_length));
+    } while((buffer.size() >= phrase_length) || t_candidate->hasCharToRead());
 }
 
 void StringFinder::Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
@@ -89,6 +89,7 @@ inline bool StringFinder::Searcher::iterateWholePhrase(const unsigned int& phras
 }
 
 bool StringFinder::Searcher::comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset) {
+    Console::printDebugInfo({"Phrase: ", std::to_string(t_buffer[t_offset])});
     for(size_t i = 0; i < t_phrase.length(); ++i) {
         if(t_phrase.at(i) != t_buffer[t_offset + i]) {
             return false;
