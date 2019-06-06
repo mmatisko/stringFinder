@@ -10,11 +10,12 @@
         class Searcher {
         private:
             std::string m_phrase;
-            constexpr static unsigned short PART_SIZE = 10;
-            constexpr static unsigned short BUFFER_SIZE = 1000;
+            constexpr static unsigned int PART_SIZE = 10;
+            constexpr static unsigned int BUFFER_SIZE = 1000;
 
         protected:
             void loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer);
+            bool iterateWholePhrase(const unsigned int& phraseLength, const unsigned int& nextStringPart, std::string& tempPhrase);
             bool comparePhrases(const std::string& t_first, const std::deque<char>& t_second, const unsigned int t_offset);
 
         public:

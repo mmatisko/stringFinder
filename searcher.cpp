@@ -17,51 +17,75 @@ void StringFinder::Searcher::processSearching(FileQueue& t_files) {
 
 void StringFinder::Searcher::scanFileForPhrase(const FilePtr t_candidate) {
     std::deque<char> buffer;
-    unsigned int counter = 0, phraseLength = m_phrase.length();
-    unsigned short nextStringPart, controlDequeOffset = 0;
+    unsigned int counter = 0, phrase_length = m_phrase.length();
+    unsigned int next_string_part, control_deque_offset = 0;
+    std::string temp_phrase;
 
     Console::printDebugInfo({"Processing file: ", t_candidate->getFileName()});
     do {
-        std::string tempPhrase = (phraseLength > PART_SIZE) ? m_phrase.substr(0, PART_SIZE) : m_phrase;
-        nextStringPart = 1;
+        temp_phrase = (phrase_length > PART_SIZE) ? m_phrase.substr(0, PART_SIZE) : m_phrase;
+        next_string_part = 1;
 
         if(buffer.empty() || buffer.back() != EOF) {  // previously reached EOF, not any chars to read
             loadToBuffer(t_candidate, buffer);
         }
-        if(buffer.size() < phraseLength) { break; }
+        if(buffer.size() < phrase_length) { break; }
 
-        while(controlDequeOffset <= 3) {  // prefix offset
-            while(comparePhrases(tempPhrase, buffer, controlDequeOffset + PART_SIZE * (nextStringPart - 1))) {
-                if(phraseLength <= (nextStringPart * PART_SIZE)) { // found a phrase
-                    Console::printPhraseOccurency(t_candidate, buffer, counter, controlDequeOffset, phraseLength);
+        for(;control_deque_offset <= 3; ++control_deque_offset) {   //for(;;) { //control_deque_offset <= 3;) {  // prefix offset
+            while(comparePhrases(temp_phrase, buffer, control_deque_offset + PART_SIZE * (next_string_part - 1))) {
+                #ifdef FUN
+                if (iterateWholePhrase(phrase_length, next_string_part, temp_phrase)) {
+                    Console::printPhraseOccurency(t_candidate, buffer, counter, control_deque_offset, phrase_length);
                     break;
-                } else {  // check next part of searched string
-                    if(phraseLength > ((nextStringPart + 1) * PART_SIZE)) {  // next part have full size
-                        tempPhrase = m_phrase.substr(PART_SIZE * nextStringPart, PART_SIZE); 
-                    } else {  // next part is last with reduced size
-                        tempPhrase = m_phrase.substr(PART_SIZE * nextStringPart, phraseLength - (PART_SIZE * nextStringPart));
-                    }
                 }
-                ++nextStringPart;
+                else {
+                    ++next_string_part;
+                }
+                #else
+                    if(phrase_length <= (next_string_part * PART_SIZE)) { // found a phrase
+                        Console::printPhraseOccurency(t_candidate, buffer, counter, control_deque_offset, phrase_length);
+                        break;
+                    } else {  // check next part of searched string
+                        if(phrase_length > ((next_string_part + 1) * PART_SIZE)) {  // next part have full size
+                            temp_phrase = m_phrase.substr(PART_SIZE * next_string_part, PART_SIZE); 
+                        } else {  // next part is last with reduced size
+                            temp_phrase = m_phrase.substr(PART_SIZE * next_string_part, phrase_length - (PART_SIZE * next_string_part));
+                        }
+                    }
+                    ++next_string_part;
+                #endif
             }
-            ++controlDequeOffset;
             ++counter;
+            if (counter % 100 == 0)
+                Console::printDebugInfo({"Counter: ", std::to_string(counter)});
         }
         buffer.pop_front();
-        --controlDequeOffset;
-    } while(t_candidate->hasCharToRead() || (buffer.size() >= phraseLength));
+        --control_deque_offset;
+    } while(t_candidate->hasCharToRead() || (buffer.size() >= phrase_length));
 }
 
 void StringFinder::Searcher::loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer) {
     char currentChar;
     while(t_buffer.size() < BUFFER_SIZE) {
         currentChar = t_candidate->getNextChar();
+        t_buffer.push_back(currentChar);
         if(currentChar == EOF) {
             break;
-        } else {
-            t_buffer.push_back(currentChar);
         }
     }
+}
+
+inline bool StringFinder::Searcher::iterateWholePhrase(const unsigned int& phraseLength, const unsigned int& nextStringPart, std::string& tempPhrase) {
+    if(phraseLength <= (nextStringPart * PART_SIZE)) { // found a phrase
+        return true;
+    } else {  // check next part of searched string
+        if(phraseLength > ((nextStringPart + 1) * PART_SIZE)) {  // next part have full size
+            tempPhrase = m_phrase.substr(PART_SIZE * nextStringPart, PART_SIZE); 
+        } else {  // next part is last with reduced size
+            tempPhrase = m_phrase.substr(PART_SIZE * nextStringPart, phraseLength - (PART_SIZE * nextStringPart));
+        }
+    }
+    return false;
 }
 
 bool StringFinder::Searcher::comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset) {
