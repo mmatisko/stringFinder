@@ -21,7 +21,7 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr t_candidate) {
     unsigned int next_string_part, control_deque_offset = 0;
     std::string temp_phrase;
 
-    Console::printDebugInfo({"Processing file: ", t_candidate->getFileName()});
+    Console::printDebugInfo("Processing file: ", t_candidate->getFileName());
     do {
         temp_phrase = (phrase_length > PART_SIZE) ? m_phrase.substr(0, PART_SIZE) : m_phrase;
         next_string_part = 1;
@@ -57,7 +57,7 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr t_candidate) {
             }
             ++counter;
             if (counter % 100 == 0)
-                Console::printDebugInfo({"Counter: ", std::to_string(counter)});
+                Console::printDebugInfo("Counter: ", counter);
         }
         buffer.pop_front();
         --control_deque_offset;
@@ -89,7 +89,7 @@ inline bool StringFinder::Searcher::iterateWholePhrase(const unsigned int& phras
 }
 
 bool StringFinder::Searcher::comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset) {
-    Console::printDebugInfo({"Phrase: ", std::to_string(t_buffer[t_offset])});
+    //Console::printDebugInfo({"Phrase: ", std::to_string(t_buffer[t_offset])});
     for(size_t i = 0; i < t_phrase.length(); ++i) {
         if(t_phrase.at(i) != t_buffer[t_offset + i]) {
             return false;

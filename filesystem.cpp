@@ -5,7 +5,7 @@
 StringFinder::FileSystem::FileSystem(const std::string t_system_path) {
     m_system_path = fs::u8path(t_system_path);
     if (pathIsValid()) {
-        Console::printDebugInfo({"Path correct!"});
+        Console::printDebugInfo("Path correct!");
         traversePath();
     } else {
         throw std::invalid_argument("Received path which does not exist or is unavailable!");
@@ -25,7 +25,7 @@ void StringFinder::FileSystem::traversePath(void) {
 }
 
 void StringFinder::FileSystem::processDirectory(const fs::path& t_directory_path) {
-    Console::printDebugInfo({"Processing folder: ", t_directory_path.u8string()});
+    Console::printDebugInfo("Processing folder: ", t_directory_path.u8string());
     for (const auto& entry : fs::directory_iterator(t_directory_path)) {
         processPath(entry.path());
     }
@@ -38,7 +38,7 @@ void StringFinder::FileSystem::processFile(const fs::path& t_file_path) {
     } catch(const std::bad_alloc& e) {
         throw std::runtime_error(e.what());
     }
-    Console::printDebugInfo({"File found! Adding to processing file: ", t_file_path});
+    Console::printDebugInfo("File found! Adding to processing file: ", t_file_path.u8string());
 }
 
 void StringFinder::FileSystem::processPath(const fs::path& t_path) {

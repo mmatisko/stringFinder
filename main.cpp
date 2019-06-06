@@ -28,7 +28,7 @@ int main (int argc, char *argv[]) {
     } 
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-    StringFinder::Console::printDebugInfo({"Elapsed time: ", std::to_string(elapsed_secs), "s"});
+    StringFinder::Console::printDebugInfo("Elapsed time: ", std::to_string(elapsed_secs), "s");
 }
 
 bool cmdArgsTesting(int argc, const char *argv[]) {
