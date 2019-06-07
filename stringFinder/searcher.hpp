@@ -14,15 +14,15 @@
             constexpr static unsigned int BUFFER_SIZE = 1000;
 
         protected:
-            void loadToBuffer(const FilePtr t_candidate, std::deque<char>& t_buffer);
-            bool iterateWholePhrase(const unsigned int& phraseLength, const unsigned int& nextStringPart, std::string& tempPhrase);
-            bool comparePhrases(const std::string& t_first, const std::deque<char>& t_second, const unsigned int t_offset);
+			static void loadToBuffer(const FilePtr& t_candidate, std::deque<char>& t_buffer);
+            bool iterateWholePhrase(const unsigned int& t_phrase_length, const unsigned int& t_next_string_part, std::string& t_temp_phrase) const;
+            static bool comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset);
 
         public:
-            explicit Searcher(const std::string t_phrase);
+            explicit Searcher(std::string t_phrase);
             ~Searcher();
-            void processSearching(FileQueue& t_files);
-            void scanFileForPhrase(const FilePtr t_candidate);
+            void processSearching(FileQueue& t_files) const;
+            void scanFileForPhrase(const FilePtr& t_candidate) const;
 
             // make class non-copyable
             Searcher(const Searcher&) = delete;
