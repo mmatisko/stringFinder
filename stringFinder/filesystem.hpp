@@ -3,11 +3,16 @@
 
     #include <filesystem>
 
-#include "file.hpp"
+    #include "file.hpp"
 
 
     namespace StringFinder {
-        namespace fs = std::experimental::filesystem::v1;
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+	namespace fs = std::experimental::filesystem::v1;
+#else
+	namespace fs = std::filesystem;
+#endif
+        
 
         class FileSystem {
         private:

@@ -1,6 +1,5 @@
 #include "console.hpp"
 #include "searcher.hpp"
-#include <utility>
 
 
 StringFinder::Searcher::Searcher(std::string t_phrase) : m_phrase(std::move(t_phrase)) {}
@@ -56,8 +55,8 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr& t_candidate) const
 #endif
             }
             ++counter;
-            if (counter % 100 == 0)
-                Console::printDebugInfo("Counter: ", counter);
+            //if (counter % 100 == 0)
+              //  Console::printDebugInfo("Counter: ", counter);
         }
         buffer.pop_front();
         --control_deque_offset;
