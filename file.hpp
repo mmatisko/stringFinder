@@ -12,21 +12,22 @@
             std::string m_file_path;
             std::string m_file_name;
             std::ifstream m_file_stream;
-            short m_buffer_index = 0;
+            short m_buffer_index = 1000;
             constexpr static short BUFFER_LENGTH = 1000;
             std::unique_ptr<char[]> m_read_buffer;
 
         protected:
-            void cacheBuffer(void);
+			void close();
+            void cacheBuffer();
 
         public:
-            explicit File(const std::string t_file_path);
+            explicit File(const std::string& t_file_path);
             ~File();
 
-            void open(void); 
-            char getNextChar(void);
-            bool hasCharToRead(void) const;
-            std::string& getFileName(void);
+            void open(); 
+            char getNextChar();
+            bool hasCharToRead() const;
+            std::string& getFileName();
 
             // make class non-copyable
             File(const File&) = delete;

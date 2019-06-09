@@ -2,9 +2,9 @@
 #include "file.hpp"
 
 
-StringFinder::File::File(const std::string t_file_path) {
+StringFinder::File::File(const std::string& t_file_path) {
     size_t position = t_file_path.length() - 1;
-    while (t_file_path.at(position) != '/') {
+    while (t_file_path.at(position) != Console::getSystemSlash()) {
         --position;
         if(position == 0) { break; }
     }
@@ -19,13 +19,17 @@ StringFinder::File::File(const std::string t_file_path) {
 }
 
 StringFinder::File::~File() {
-    try {
-        m_file_stream.close();
-    } catch(const std::ifstream::failure& e) {
-        Console::printNonCrashException({"Exception while closing file ", m_file_path, " : ", e.what()});
-    }
     m_file_path.clear();
     m_file_name.clear();
+	close();
+}
+
+void StringFinder::File::close() {
+	try {
+		m_file_stream.close();
+	} catch (const std::ifstream::failure& e) {
+		Console::printNonCrashException({"Exception while closing file ", m_file_path, " : ", e.what()});
+	}
 }
 
 void StringFinder::File::open() {
@@ -36,26 +40,28 @@ void StringFinder::File::open() {
     }
 }
 
-std::string& StringFinder::File::getFileName(void) {
+std::string& StringFinder::File::getFileName() {
     return m_file_name;
 }
 
-bool StringFinder::File::hasCharToRead(void) const {
-    return m_file_stream.good(); 
+bool StringFinder::File::hasCharToRead() const {
+	return m_file_stream.good();
 }
 
-char StringFinder::File::getNextChar(void) {
+char StringFinder::File::getNextChar() {
     if (m_buffer_index == BUFFER_LENGTH) {
         cacheBuffer();
     }
     char nextChar = m_read_buffer[m_buffer_index];
-    if (nextChar != EOF) {
-        ++m_buffer_index;
+	if (nextChar != '\0') {
+		++m_buffer_index;
+	} else {
+		nextChar = EOF;
     }
     return nextChar;
 }
 
-void StringFinder::File::cacheBuffer(void) {
+void StringFinder::File::cacheBuffer() {
     if (this->hasCharToRead()) {
         try {
             m_file_stream.read(m_read_buffer.get(), BUFFER_LENGTH);

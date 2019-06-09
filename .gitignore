@@ -1,28 +1,9 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+/x64/Debug
+/stringFinder/.vs/stringFinder/v15
+/stringFinder/testing
+/stringFinder/x64/Debug
+/.vs/stringFinder

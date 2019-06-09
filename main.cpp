@@ -1,7 +1,3 @@
-#include <ctime>
-#include <memory>
-#include <stdexcept>
-
 #include "console.hpp"
 #include "filesystem.hpp"
 #include "main.hpp"
@@ -10,28 +6,30 @@
 
 using namespace std;
 
-int main (int argc, char *argv[]) {
-    string path, phrase;
-
-    clock_t begin = clock();
-    if (cmdArgsTesting(argc, (const char **)argv)) {
-        path = argv[1];
-        phrase = argv[2];
+int main (const int argc, char *argv[]) {
+	const clock_t begin = clock();
+    if (cmdArgsTesting(argc, const_cast<const char **>(argv))) {
+        string path = argv[1];
+        string phrase = argv[2];
 
         try {
             unique_ptr<StringFinder::FileSystem> fs = make_unique<StringFinder::FileSystem>(path);
-            unique_ptr<StringFinder::Searcher> searcher = make_unique<StringFinder::Searcher>(phrase);
+            const unique_ptr<StringFinder::Searcher> searcher = make_unique<StringFinder::Searcher>(phrase);
             searcher->processSearching(fs->getFiles());
         } catch(const bad_alloc& e) {
             throw runtime_error(e.what());
         }
-    } 
-    clock_t end = clock();
-    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    }
+    const clock_t end = clock();
+    const double elapsed_secs = (static_cast<double>(end) - begin) / CLOCKS_PER_SEC;
     StringFinder::Console::printDebugInfo("Elapsed time: ", std::to_string(elapsed_secs), "s");
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+	auto a = getchar();
+#endif
 }
 
-bool cmdArgsTesting(int argc, const char *argv[]) {
+bool cmdArgsTesting(const int argc, const char *argv[]) {
     if (argc == 3) {
         if (strlen(argv[1]) > 2 && strlen(argv[1]) <= 128) {
             if (strlen(argv[2]) > 2 && strlen(argv[2]) <= 1000) {
