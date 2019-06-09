@@ -1,7 +1,3 @@
-#include <ctime>
-#include <memory>
-#include <stdexcept>
-
 #include "console.hpp"
 #include "filesystem.hpp"
 #include "main.hpp"
@@ -27,7 +23,10 @@ int main (const int argc, char *argv[]) {
     const clock_t end = clock();
     const double elapsed_secs = (static_cast<double>(end) - begin) / CLOCKS_PER_SEC;
     StringFinder::Console::printDebugInfo("Elapsed time: ", std::to_string(elapsed_secs), "s");
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	auto a = getchar();
+#endif
 }
 
 bool cmdArgsTesting(const int argc, const char *argv[]) {

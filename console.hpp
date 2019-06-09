@@ -1,11 +1,11 @@
 #ifndef CONSOLE_HPP
-#define CONSOLE_HPP
+    #define CONSOLE_HPP
 
-#include <initializer_list>
-#include <iostream>
-#include <string>
+    #include <initializer_list>
+    #include <iostream>
+    #include <string>
 
-#include "file.hpp"
+    #include "file.hpp"
 
 
     namespace StringFinder {
