@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stringFinder", "stringFinder\stringFinder.vcxproj", "{56B8EB3E-8DAD-4EF3-8213-7B6DD884248B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stringFinder", "stringFinder.vcxproj", "{56B8EB3E-8DAD-4EF3-8213-7B6DD884248B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0BB64787-11C2-47DE-810B-0FE6631A89F1}
+		SolutionGuid = {86EE2D97-98DE-4860-AC61-60C8F14C5543}
 	EndGlobalSection
 EndGlobal
