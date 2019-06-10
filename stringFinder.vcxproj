@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="console.hpp" />
     <ClInclude Include="file.hpp" />
+    <ClInclude Include="filequeue.hpp" />
     <ClInclude Include="filesystem.hpp" />
     <ClInclude Include="main.hpp" />
     <ClInclude Include="searcher.hpp" />
@@ -124,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="console.cpp" />
     <ClCompile Include="file.cpp" />
+    <ClCompile Include="filequeue.cpp" />
     <ClCompile Include="filesystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="searcher.cpp" />

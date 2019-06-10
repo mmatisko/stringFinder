@@ -30,6 +30,9 @@
     <ClInclude Include="searcher.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="filequeue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="console.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="searcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="filequeue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
