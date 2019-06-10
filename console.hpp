@@ -48,17 +48,17 @@
         }
 
         template <typename T>
-        inline std::string Console::toString(T t_input) {
+        std::string Console::toString(T t_input) {
             return std::to_string(t_input);
         }
 
         template <typename... Args>
-        inline std::string Console::toString(std::string t_input, Args... t_args) {
+        std::string Console::toString(std::string t_input, Args... t_args) {
             return t_input + toString(t_args...);
         }
 
         template <typename... Args>
-        inline void Console::printDebugInfo(const Args&... t_message_parts) {
+        void Console::printDebugInfo(const Args&... t_message_parts) {
             std::string output = "[DEBUG] ";
             output += toString(t_message_parts...);
             std::cout << output << std::endl;
