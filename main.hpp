@@ -5,6 +5,7 @@
     #include <ctime>
     #include <memory>
     #include <stdexcept>
+	#include <thread>
 
     
     bool cmdArgsTesting(int argc, const char *argv[]);

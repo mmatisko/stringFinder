@@ -16,15 +16,15 @@
 
         class FileSystem {
 		public:
-			explicit FileSystem(const std::string& t_system_path);
+			explicit FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files);
 			~FileSystem();
 
 			bool pathIsValid() const;
-			FileQueue& getFiles();
+			std::shared_ptr<FileQueue>& getFiles();
 
 			void traversePath();
 			void processDirectory(const fs::path& t_directory_path);
-			void processFile(const fs::path& t_file_path);
+			void processFile(const fs::path& t_file_path) const;
 			void processPath(const fs::path& t_path);
 			bool traversalComplete() const;
 
@@ -37,7 +37,7 @@
 
         private:
             fs::path m_system_path;
-            FileQueue m_files;
+			std::shared_ptr<FileQueue> m_files;
             bool m_traverse_complete;    
         };
     }

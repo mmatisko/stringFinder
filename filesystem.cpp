@@ -2,12 +2,12 @@
 #include "filesystem.hpp"
 
 
-StringFinder::FileSystem::FileSystem(const std::string& t_system_path) {
+StringFinder::FileSystem::FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files) {
     m_system_path = fs::u8path(t_system_path);
     if (pathIsValid()) {
         Console::printDebugInfo("Path correct!");
 		m_traverse_complete = false;
-        traversePath();
+		m_files = t_files;
     } else {
         throw std::invalid_argument("Received path which does not exist or is unavailable!");
     }
@@ -31,10 +31,10 @@ void StringFinder::FileSystem::processDirectory(const fs::path& t_directory_path
     }
 }
 
-void StringFinder::FileSystem::processFile(const fs::path& t_file_path) {
+void StringFinder::FileSystem::processFile(const fs::path& t_file_path) const {
     try{
 	    const auto file = std::make_shared<File>(t_file_path.u8string());
-        m_files.push(file);
+        m_files.get()->add(file);
     } catch(const std::bad_alloc& e) {
         throw std::runtime_error(e.what());
     }
@@ -53,6 +53,6 @@ bool StringFinder::FileSystem::traversalComplete() const {
     return m_traverse_complete;
 }
 
-StringFinder::FileQueue& StringFinder::FileSystem::getFiles() {
+std::shared_ptr<StringFinder::FileQueue>& StringFinder::FileSystem::getFiles() {
     return m_files;
 }

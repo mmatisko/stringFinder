@@ -9,16 +9,24 @@ using namespace std;
 int main (const int argc, char *argv[]) {
 	const clock_t begin = clock();
     if (cmdArgsTesting(argc, const_cast<const char **>(argv))) {
-        string path = argv[1];
-        string phrase = argv[2];
+	    const string path = argv[1];
+        const string phrase = argv[2];
 
+		std::shared_ptr<StringFinder::FileQueue> buffer;
+		StringFinder::FileSystem fs(path, buffer);
+		StringFinder::Searcher searcher(phrase, buffer);
+
+		std::thread filesystem_thread(&StringFinder::FileSystem::traversePath, &fs);
+		std::thread searcher_thread(&StringFinder::Searcher::processSearching, &searcher);
+
+		/*
         try {
             unique_ptr<StringFinder::FileSystem> fs = make_unique<StringFinder::FileSystem>(path);
             const unique_ptr<StringFinder::Searcher> searcher = make_unique<StringFinder::Searcher>(phrase);
             searcher->processSearching(fs->getFiles());
         } catch(const bad_alloc& e) {
             throw runtime_error(e.what());
-        }
+        }*/
     }
     const clock_t end = clock();
     const double elapsed_secs = (static_cast<double>(end) - begin) / CLOCKS_PER_SEC;

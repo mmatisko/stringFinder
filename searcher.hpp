@@ -9,9 +9,9 @@
     namespace StringFinder {
         class Searcher {
 		public:
-			explicit Searcher(std::string t_phrase);
+			explicit Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files);
 			~Searcher();
-			void processSearching(FileQueue& t_files) const;
+			void processSearching() const;
 			void scanFileForPhrase(const FilePtr& t_candidate) const;
 
 			// make class non-copyable
@@ -28,6 +28,7 @@
         
 		private:
 			std::string m_phrase;
+			std::shared_ptr<FileQueue> m_files;
 			constexpr static unsigned int PART_SIZE = 10;
 			constexpr static unsigned int BUFFER_SIZE = 1000;
         };
