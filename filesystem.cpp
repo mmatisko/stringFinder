@@ -2,12 +2,11 @@
 #include "filesystem.hpp"
 
 
-StringFinder::FileSystem::FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag) : m_traverse_complete(complete_flag) {
+StringFinder::FileSystem::FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag) 
+: m_traverse_complete(complete_flag), m_files(t_files) {
     m_system_path = fs::u8path(t_system_path);
     if (pathIsValid()) {
         Console::printDebugInfo("Path correct!");
-		//m_traverse_complete = complete_flag;
-		m_files = t_files;
     } else {
         throw std::invalid_argument("Received path which does not exist or is unavailable!");
     }

@@ -12,6 +12,14 @@
 			FileQueue() = default;
 			void add(const FilePtr& t_input);
 			FilePtr remove();
+			bool hasItems();
+
+			// make class non-copyable
+			FileQueue(const FileQueue& f) = delete;
+			FileQueue& operator=(const FileQueue& f) = delete;
+			// make class non-movable
+			FileQueue(const FileQueue&& f) = delete;
+			FileQueue& operator=(const FileQueue&& f) = delete;
 
 		private:
 			std::mutex m_mutex;

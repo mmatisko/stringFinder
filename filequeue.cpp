@@ -20,4 +20,9 @@ StringFinder::FilePtr StringFinder::FileQueue::remove() {
 	return last;
 }
 
-
+bool StringFinder::FileQueue::hasItems() {
+	std::unique_lock<std::mutex> locker(m_mutex);
+	const bool hasItems = !m_buffer.empty();
+	locker.unlock();
+	return hasItems;
+}

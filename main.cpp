@@ -23,15 +23,6 @@ int main (const int argc, char *argv[]) {
 
 		filesystem_thread.join();
 		searcher_thread.join();
-
-		/*
-        try {
-            unique_ptr<StringFinder::FileSystem> fs = make_unique<StringFinder::FileSystem>(path);
-            const unique_ptr<StringFinder::Searcher> searcher = make_unique<StringFinder::Searcher>(phrase);
-            searcher->runProcessSearching(fs->getFiles());
-        } catch(const bad_alloc& e) {
-            throw runtime_error(e.what());
-        }*/
     }
     const clock_t end = clock();
     const double elapsed_secs = (static_cast<double>(end) - begin) / CLOCKS_PER_SEC;

@@ -10,7 +10,7 @@ StringFinder::Searcher::~Searcher() {
 }
 
 void StringFinder::Searcher::runProcessSearching() const {
-    while(!m_searching_complete) { //TODO: test complete flag
+    while(m_files.get()->hasItems() || !m_searching_complete) { // TODO: test complete flag
         scanFileForPhrase(m_files.get()->remove());
     }
 }
@@ -32,31 +32,13 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr& t_candidate) const
 
         for(;control_deque_offset <= 3; ++control_deque_offset) {   //for(;;) { //control_deque_offset <= 3;) {  // prefix offset
             while(comparePhrases(temp_phrase, buffer, control_deque_offset + PART_SIZE * (next_string_part - 1))) {
-#ifndef FUN
                 if (iterateWholePhrase(phrase_length, next_string_part, temp_phrase)) {
                     Console::printPhraseOccurence(t_candidate, buffer, counter, control_deque_offset, phrase_length);
                     break;
                 }
-                else {
-                    ++next_string_part;
-                }
-#else
-                if(phrase_length <= (next_string_part * PART_SIZE)) { // found a phrase
-                    Console::printPhraseOccurence(t_candidate, buffer, counter, control_deque_offset, phrase_length);
-                    break;
-                } else {  // check next part of searched string
-                    if(phrase_length > ((next_string_part + 1) * PART_SIZE)) {  // next part have full size
-                        temp_phrase = m_phrase.substr(static_cast<size_t>(PART_SIZE) * next_string_part, PART_SIZE);
-                    } else {  // next part is last with reduced size
-                        temp_phrase = m_phrase.substr(static_cast<size_t>(PART_SIZE) * next_string_part, phrase_length - (PART_SIZE * next_string_part));
-                    }
-                }
                 ++next_string_part;
-#endif
             }
             ++counter;
-            //if (counter % 100 == 0)
-              //  Console::printDebugInfo("Counter: ", counter);
         }
         buffer.pop_front();
         --control_deque_offset;

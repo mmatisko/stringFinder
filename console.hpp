@@ -35,9 +35,6 @@ namespace StringFinder {
         protected:
             static std::string formatPrefixSuffix(const std::deque<char>& t_buffer, unsigned int t_from, unsigned int t_to);
 			static void doConcurrentPrint(const std::string& t_text);
-
-        private:
-			//static std::mutex m_mutex;
         };
 
         inline std::string Console::toString(std::string t_input) {
