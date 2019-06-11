@@ -3,12 +3,13 @@
 
     #include <initializer_list>
     #include <iostream>
+	#include <mutex>
     #include <string>
 
     #include "file.hpp"
 
 
-    namespace StringFinder {
+namespace StringFinder {
         class Console {
         public:
 			// make object from class non-creatable
@@ -31,8 +32,12 @@
             static void printPhraseOccurence(const FilePtr& t_candidate, const std::deque<char>& t_buffer,
                                              unsigned int t_counter, unsigned int t_control_deque_offset, unsigned int t_phrase_length); 
 
-        private:
+        protected:
             static std::string formatPrefixSuffix(const std::deque<char>& t_buffer, unsigned int t_from, unsigned int t_to);
+			static void doConcurrentPrint(const std::string& t_text);
+
+        private:
+			//static std::mutex m_mutex;
         };
 
         inline std::string Console::toString(std::string t_input) {
@@ -61,15 +66,22 @@
         void Console::printDebugInfo(const Args&... t_message_parts) {
             std::string output = "[DEBUG] ";
             output += toString(t_message_parts...);
-            std::cout << output << std::endl;
+			doConcurrentPrint(output);
         }
 
         inline void Console::printNonCrashException(const std::initializer_list<std::string> t_exception_parts) {
-            std::cout << "[EXCEPTION] ";
+			std::string output = "[EXCEPTION] ";
             for(const auto& elem : t_exception_parts ) {
-                std::cout << elem;
+				output += elem;
             }
-            std::cout << std::endl;
+			doConcurrentPrint(output);
+        }
+
+		inline void Console::doConcurrentPrint(const std::string& t_text) {
+			static std::mutex m_mutex;
+			std::unique_lock<std::mutex> locker(m_mutex);
+			std::cout << t_text << std::endl;
+			locker.unlock();
         }
     }
 

@@ -2,6 +2,7 @@
     #define FILESYSTEM_HPP
 
     #include <filesystem>
+	#include <atomic>
 
     #include "filequeue.hpp"
 
@@ -16,13 +17,13 @@
 
         class FileSystem {
 		public:
-			explicit FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files);
+			explicit FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
 			~FileSystem();
 
 			bool pathIsValid() const;
 			std::shared_ptr<FileQueue>& getFiles();
 
-			void traversePath();
+			void runTraversingPath();
 			void processDirectory(const fs::path& t_directory_path);
 			void processFile(const fs::path& t_file_path) const;
 			void processPath(const fs::path& t_path);
@@ -36,9 +37,9 @@
 			FileSystem& operator=(const FileSystem&& f) = delete;
 
         private:
+			std::atomic<bool>& m_traverse_complete;
             fs::path m_system_path;
 			std::shared_ptr<FileQueue> m_files;
-            bool m_traverse_complete;    
         };
     }
 

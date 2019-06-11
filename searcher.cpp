@@ -2,18 +2,16 @@
 #include "searcher.hpp"
 
 
-StringFinder::Searcher::Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files) : m_phrase(std::move(t_phrase)) {
-	m_files = t_files;
-}
+StringFinder::Searcher::Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag)
+: m_searching_complete(complete_flag), m_phrase(std::move(t_phrase)), m_files(t_files) {}
 
 StringFinder::Searcher::~Searcher() {
     m_phrase.clear();
 }
 
-void StringFinder::Searcher::processSearching() const {
-    while(true) { //!t_files.empty()) { TODO: pass and use complete flag from filesystem
+void StringFinder::Searcher::runProcessSearching() const {
+    while(!m_searching_complete) { //TODO: test complete flag
         scanFileForPhrase(m_files.get()->remove());
-        //t_files.pop();
     }
 }
 

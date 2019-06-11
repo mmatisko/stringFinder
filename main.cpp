@@ -2,6 +2,7 @@
 #include "filesystem.hpp"
 #include "main.hpp"
 #include "searcher.hpp"
+#include <atomic>
 
 
 using namespace std;
@@ -12,18 +13,22 @@ int main (const int argc, char *argv[]) {
 	    const string path = argv[1];
         const string phrase = argv[2];
 
-		std::shared_ptr<StringFinder::FileQueue> buffer;
-		StringFinder::FileSystem fs(path, buffer);
-		StringFinder::Searcher searcher(phrase, buffer);
+		atomic<bool> complete_flag = false;
+		std::shared_ptr<StringFinder::FileQueue> buffer = make_shared<StringFinder::FileQueue>();
+		StringFinder::FileSystem fs(path, buffer, complete_flag);
+		StringFinder::Searcher searcher(phrase, buffer, complete_flag);
 
-		std::thread filesystem_thread(&StringFinder::FileSystem::traversePath, &fs);
-		std::thread searcher_thread(&StringFinder::Searcher::processSearching, &searcher);
+		std::thread filesystem_thread(&StringFinder::FileSystem::runTraversingPath, &fs);
+		std::thread searcher_thread(&StringFinder::Searcher::runProcessSearching, &searcher);
+
+		filesystem_thread.join();
+		searcher_thread.join();
 
 		/*
         try {
             unique_ptr<StringFinder::FileSystem> fs = make_unique<StringFinder::FileSystem>(path);
             const unique_ptr<StringFinder::Searcher> searcher = make_unique<StringFinder::Searcher>(phrase);
-            searcher->processSearching(fs->getFiles());
+            searcher->runProcessSearching(fs->getFiles());
         } catch(const bad_alloc& e) {
             throw runtime_error(e.what());
         }*/

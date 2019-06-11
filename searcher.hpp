@@ -1,6 +1,7 @@
 #ifndef SEARCHER_HPP
     #define SEARCHER_HPP
 
+	#include <atomic>
     #include <deque>
 
     #include "filequeue.hpp"
@@ -9,9 +10,9 @@
     namespace StringFinder {
         class Searcher {
 		public:
-			explicit Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files);
+			explicit Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
 			~Searcher();
-			void processSearching() const;
+			void runProcessSearching() const;
 			void scanFileForPhrase(const FilePtr& t_candidate) const;
 
 			// make class non-copyable
@@ -27,10 +28,11 @@
             static bool comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset);
         
 		private:
-			std::string m_phrase;
-			std::shared_ptr<FileQueue> m_files;
+			std::atomic<bool>& m_searching_complete;
 			constexpr static unsigned int PART_SIZE = 10;
 			constexpr static unsigned int BUFFER_SIZE = 1000;
+			std::string m_phrase;
+			std::shared_ptr<FileQueue> m_files;
         };
     }
 

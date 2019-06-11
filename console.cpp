@@ -10,7 +10,7 @@ const unsigned int t_control_deque_offset, const unsigned int t_phrase_length) {
         occurence += formatPrefixSuffix(t_buffer, 0, t_control_deque_offset);
     }
     occurence += "..." + formatPrefixSuffix(t_buffer, t_phrase_length + t_control_deque_offset, suffix_limit);
-    std::cout << occurence << std::endl;
+	doConcurrentPrint(occurence);
 }
 
 std::string StringFinder::Console::formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned int t_from, 
