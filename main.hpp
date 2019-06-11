@@ -8,6 +8,6 @@
 	#include <thread>
 
     
-    bool cmdArgsTesting(int argc, const char *argv[]);
+    void cmdArgsTesting(int argc, const char *argv[]);
 
 #endif //MAIN_HPP

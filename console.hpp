@@ -1,6 +1,7 @@
 #ifndef CONSOLE_HPP
     #define CONSOLE_HPP
 
+	#include <deque>
     #include <initializer_list>
     #include <iostream>
 	#include <mutex>
@@ -38,17 +39,14 @@ namespace StringFinder {
             static std::string formatPrefixSuffix(const std::deque<char>& t_buffer, unsigned int t_from, unsigned int t_to);
 			static void doConcurrentPrint(const std::string& t_text);
         };
-
 		
         inline std::string Console::toString(std::string t_input) {
             return t_input;
         }
-
 		
         inline std::string Console::toString(const char t_inputs[]) {
             return std::string(t_inputs);
         }
-
 		
         inline std::string Console::toString(char t_inputs[]) {
             return std::string(t_inputs);
@@ -63,7 +61,6 @@ namespace StringFinder {
         std::string Console::toString(T t_input, Args... t_args) {
             return toString(t_input) + toString(t_args...);
         }
-		
 
         template <typename... Args>
         void Console::printDebugInfo(const Args&... t_message_parts) {
