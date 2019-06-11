@@ -31,7 +31,7 @@ void StringFinder::FileSystem::processDirectory(const fs::path& t_directory_path
 }
 
 void StringFinder::FileSystem::processFile(const fs::path& t_file_path) const {
-    try{
+    try {
 	    const auto file = std::make_shared<File>(t_file_path.u8string());
         m_files.get()->add(file);
     } catch(const std::bad_alloc& e) {

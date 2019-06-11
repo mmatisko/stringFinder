@@ -69,7 +69,6 @@ inline bool StringFinder::Searcher::iterateWholePhrase(const unsigned int& t_phr
 }
 
 bool StringFinder::Searcher::comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset) {
-    //Console::printDebugInfo({"Phrase: ", std::to_string(t_buffer[t_offset])});
     for(size_t i = 0; i < t_phrase.length(); ++i) {
         if(t_phrase.at(i) != t_buffer[t_offset + i]) {
             return false;

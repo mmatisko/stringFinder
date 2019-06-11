@@ -13,8 +13,7 @@ const unsigned int t_control_deque_offset, const unsigned int t_phrase_length) {
 	doConcurrentPrint(occurence);
 }
 
-std::string StringFinder::Console::formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned int t_from, 
-const unsigned int t_to) {
+std::string StringFinder::Console::formatPrefixSuffix(const std::deque<char>& t_buffer, const unsigned int t_from, const unsigned int t_to) {
     std::string result;
     for(unsigned short i = t_from; i < t_to; ++i) {
         switch(t_buffer[i]){
