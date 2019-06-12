@@ -11,7 +11,8 @@ namespace StringFinder {
         explicit File(const std::string& t_file_path);
         ~File();
 
-        void open(); 
+        void open();
+		void close();
         char getNextChar();
         bool hasCharToRead() const;
         std::string& getFileName();
@@ -24,7 +25,6 @@ namespace StringFinder {
         File& operator=(const File&& f) = delete;
 
 	protected:
-		void close();
 		void cacheBuffer();
 
 	private:

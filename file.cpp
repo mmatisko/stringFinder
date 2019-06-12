@@ -11,17 +11,11 @@ StringFinder::File::File(const std::string& t_file_path) {
     m_file_name = t_file_path.substr(position + 1, t_file_path.length() - position - 1);
     m_file_path = t_file_path;
     m_read_buffer = std::make_unique<char[]>(BUFFER_LENGTH);
-    try {
-        open();
-    } catch(const std::runtime_error& err) {
-        std::cout << err.what() << std::endl;
-    }
 }
 
 StringFinder::File::~File() {
     m_file_path.clear();
     m_file_name.clear();
-	close();
 }
 
 void StringFinder::File::close() {

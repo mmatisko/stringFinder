@@ -10,8 +10,11 @@ StringFinder::Searcher::~Searcher() {
 }
 
 void StringFinder::Searcher::runProcessSearching() const {
-    while(m_files.get()->hasItems() || !m_searching_complete) { // TODO: test complete flag
-        scanFileForPhrase(m_files.get()->remove());
+    while(m_files.get()->hasItems() || !m_searching_complete) { 
+		FilePtr file = m_files.get()->remove();
+		if (file != nullptr) {
+			scanFileForPhrase(file);
+		} else { break;	}
     }
 }
 
@@ -20,7 +23,9 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr& t_candidate) const
     unsigned int counter = 0, control_deque_offset = 0;
     const auto phrase_length = static_cast<unsigned int>(m_phrase.length());
 
+	t_candidate.get()->open();
     Console::printDebugInfo("Processing file: ", t_candidate->getFileName());
+
     do {
         std::string temp_phrase = (phrase_length > PART_SIZE) ? m_phrase.substr(0, PART_SIZE) : m_phrase;
         unsigned int next_string_part = 1;
@@ -43,6 +48,9 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr& t_candidate) const
         buffer.pop_front();
         --control_deque_offset;
     } while((buffer.size() >= phrase_length) || t_candidate->hasCharToRead());
+
+	t_candidate.get()->close();
+	Console::printDebugInfo("File ", t_candidate->getFileName(), " processed.");
 }
 
 void StringFinder::Searcher::loadToBuffer(const FilePtr& t_candidate, std::deque<char>& t_buffer) {

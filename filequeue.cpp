@@ -5,18 +5,20 @@ void StringFinder::FileQueue::add(const FilePtr& t_input) {
 	m_cond.wait(locker, [this]() {return m_buffer.size() < SIZE; });
 	m_buffer.push_back(t_input);
 	locker.unlock();
-	m_cond.notify_all();
-	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	m_cond.notify_one();
+	std::this_thread::sleep_for(std::chrono::milliseconds(5));
 }
 
 StringFinder::FilePtr StringFinder::FileQueue::remove() {
 	std::unique_lock<std::mutex> locker(m_mutex);
-	m_cond.wait(locker, [this]() {return !m_buffer.empty(); });
+	m_cond.wait_for(locker, std::chrono::milliseconds(20));
+	if (m_buffer.empty()) {
+		return nullptr;
+	}
 	FilePtr last = m_buffer.back();
 	m_buffer.pop_back();
 	locker.unlock();
 	m_cond.notify_all();
-	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	return last;
 }
 

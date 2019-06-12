@@ -17,13 +17,16 @@ int main (const int argc, char *argv[]) {
 	atomic<bool> complete_flag = false;
 	std::shared_ptr<StringFinder::FileQueue> buffer = make_shared<StringFinder::FileQueue>();
 	StringFinder::FileSystem fs(path, buffer, complete_flag);
-	StringFinder::Searcher searcher(phrase, buffer, complete_flag);
+	StringFinder::Searcher searcher_one(phrase, buffer, complete_flag);
+	StringFinder::Searcher searcher_two(phrase, buffer, complete_flag);
 
 	std::thread filesystem_thread(&StringFinder::FileSystem::runTraversingPath, &fs);
-	std::thread searcher_thread(&StringFinder::Searcher::runProcessSearching, &searcher);
+	std::thread searcher_thread_one(&StringFinder::Searcher::runProcessSearching, &searcher_one);
+	std::thread searcher_thread_two(&StringFinder::Searcher::runProcessSearching, &searcher_two);
 
 	filesystem_thread.join();
-	searcher_thread.join();
+	searcher_thread_one.join();
+	searcher_thread_two.join();
     
     const clock_t end = clock();
     const double elapsed_secs = (static_cast<double>(end) - begin) / CLOCKS_PER_SEC;
