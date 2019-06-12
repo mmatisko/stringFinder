@@ -10,7 +10,7 @@
     namespace StringFinder {
         class Searcher {
 		public:
-			explicit Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
+			Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
 			~Searcher();
 			void runProcessSearching() const;
 			void scanFileForPhrase(const FilePtr& t_candidate) const;

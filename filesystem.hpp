@@ -17,7 +17,7 @@
 
         class FileSystem {
 		public:
-			explicit FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
+			FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
 			~FileSystem();
 
 			bool pathIsValid() const;

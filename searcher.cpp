@@ -58,12 +58,12 @@ void StringFinder::Searcher::loadToBuffer(const FilePtr& t_candidate, std::deque
 inline bool StringFinder::Searcher::iterateWholePhrase(const unsigned int& t_phrase_length, const unsigned int& t_next_string_part, std::string& t_temp_phrase) const {
     if(t_phrase_length <= (t_next_string_part * PART_SIZE)) { // found a phrase
         return true;
-    } else {  // check next part of searched string
-        if(t_phrase_length > ((t_next_string_part + 1) * PART_SIZE)) {  // next part have full size
-            t_temp_phrase = m_phrase.substr(PART_SIZE * static_cast<size_t>(t_next_string_part), PART_SIZE);
-        } else {  // next part is last with reduced size
-            t_temp_phrase = m_phrase.substr(PART_SIZE * static_cast<size_t>(t_next_string_part), t_phrase_length - (PART_SIZE * t_next_string_part));
-        }
+    }  
+	// check next part of searched string
+	if(t_phrase_length > ((t_next_string_part + 1) * PART_SIZE)) {  // next part has full size
+        t_temp_phrase = m_phrase.substr(PART_SIZE * static_cast<size_t>(t_next_string_part), PART_SIZE);
+    } else {  // next part is last with reduced size
+        t_temp_phrase = m_phrase.substr(PART_SIZE * static_cast<size_t>(t_next_string_part), t_phrase_length - (PART_SIZE * t_next_string_part));
     }
     return false;
 }
