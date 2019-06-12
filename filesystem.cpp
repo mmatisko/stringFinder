@@ -12,7 +12,9 @@ StringFinder::FileSystem::FileSystem(const std::string& t_system_path, std::shar
     }
 }
 
-StringFinder::FileSystem::~FileSystem() = default;
+StringFinder::FileSystem::~FileSystem() {
+	m_system_path.clear();
+}
 
 bool StringFinder::FileSystem::pathIsValid() const {
     return fs::exists(m_system_path);

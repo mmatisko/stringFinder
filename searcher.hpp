@@ -18,6 +18,7 @@ namespace StringFinder {
 		// make class non-copyable
 		Searcher(const Searcher&) = delete;
 		Searcher& operator=(const Searcher&) = delete;
+
 		// make class non-movable
 		Searcher(const Searcher&& s) = delete;
 		Searcher& operator=(const Searcher&& s) = delete;
@@ -28,11 +29,14 @@ namespace StringFinder {
         static bool comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset);
     
 	private:
-		std::atomic<bool>& m_searching_complete;
+		// own variables / constants
 		constexpr static unsigned int PART_SIZE = 10;
 		constexpr static unsigned int BUFFER_SIZE = 1000;
 		std::string m_phrase;
+
+		// references / pointer to shared variables
 		std::shared_ptr<FileQueue> m_files;
+		std::atomic<bool>& m_searching_complete;
     };
 }
 

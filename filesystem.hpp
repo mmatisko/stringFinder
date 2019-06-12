@@ -36,8 +36,10 @@ namespace StringFinder {
 		FileSystem& operator=(const FileSystem&& f) = delete;
 
     private:
+		// own variables
+		fs::path m_system_path;
+		// references / pointer to shared variables
 		std::atomic<bool>& m_traverse_complete;
-        fs::path m_system_path;
 		std::shared_ptr<FileQueue> m_files;
     };
 }

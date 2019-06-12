@@ -3,7 +3,7 @@
 
 
 StringFinder::Searcher::Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag)
-: m_searching_complete(complete_flag), m_phrase(std::move(t_phrase)), m_files(t_files) {}
+: m_phrase(std::move(t_phrase)), m_files(t_files), m_searching_complete(complete_flag) {}
 
 StringFinder::Searcher::~Searcher() {
     m_phrase.clear();
@@ -30,12 +30,12 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr& t_candidate) const
         std::string temp_phrase = (phrase_length > PART_SIZE) ? m_phrase.substr(0, PART_SIZE) : m_phrase;
         unsigned int next_string_part = 1;
 
-		if(buffer.size() < phrase_length || (!buffer.empty() && buffer.back() != EOF)) {  // previously reached EOF, not any chars to read
+		if(buffer.size() < phrase_length || (!buffer.empty() && buffer.back() != EOF)) {  // load chars if we do not have enough characters in buffer
             loadToBuffer(t_candidate, buffer);
         }
-		if (buffer.size() < phrase_length) { break; }
+		if (buffer.size() < phrase_length) { break; }  // if not have enough characters after loading, end
 
-        for(;control_deque_offset <= 3; ++control_deque_offset) {   //for(;;) { //control_deque_offset <= 3;) {  // prefix offset
+        for(;control_deque_offset <= 3; ++control_deque_offset) {   // check first three chars and then check 4th character only (left 3 for prefix print) 
             while(comparePhrases(temp_phrase, buffer, control_deque_offset + PART_SIZE * (next_string_part - 1))) {
                 if (iterateWholePhrase(phrase_length, next_string_part, temp_phrase)) {
                     Console::printPhraseOccurence(t_candidate, buffer, counter, control_deque_offset, phrase_length);
@@ -47,7 +47,7 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr& t_candidate) const
         }
         buffer.pop_front();
         --control_deque_offset;
-    } while((buffer.size() >= phrase_length) || t_candidate->hasCharToRead());
+    } while(buffer.size() >= phrase_length || t_candidate->hasCharToRead());
 
 	t_candidate.get()->close();
 	Console::printDebugInfo("File ", t_candidate->getFileName(), " processed.");
@@ -55,8 +55,10 @@ void StringFinder::Searcher::scanFileForPhrase(const FilePtr& t_candidate) const
 
 void StringFinder::Searcher::loadToBuffer(const FilePtr& t_candidate, std::deque<char>& t_buffer) {
 	while(t_buffer.size() < BUFFER_SIZE) {
-        char current_char = t_candidate->getNextChar();
-        t_buffer.push_back(current_char);
+		// loading character from file buffer 
+        char current_char = t_candidate->getNextChar();  
+		// inserting character to processing deque (inserted character may vary using different search algorithm, like Shift-and / Shift-or algorithm).
+        t_buffer.push_back(current_char);  
         if(current_char == EOF) {
             break;
         }

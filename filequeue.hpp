@@ -11,6 +11,7 @@ namespace StringFinder {
 	class FileQueue {
 	public:
 		FileQueue() = default;
+		~FileQueue();
 		void add(const FilePtr& t_input);
 		FilePtr remove();
 		bool hasItems();

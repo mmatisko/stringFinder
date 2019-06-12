@@ -10,6 +10,7 @@
 
 #include "file.hpp"
 
+#define DEBUG_LOGGING 
 
 namespace StringFinder {
     class Console {
@@ -22,19 +23,18 @@ namespace StringFinder {
 		// make class non-movable
 		Console(const Console&& c) = delete;
 		Console& operator=(const Console&& c) = delete;
-
-		static char getSystemSlash();
 		
 		static std::string toString(std::string t_input);
 		static std::string toString(const char t_inputs[]);
 		static std::string toString(char t_inputs[]);
 		template <typename T> static std::string toString(T t_input);
-
 		template <typename T, typename... Args> static std::string toString(T t_input, Args... t_args);
         template <typename... Args> static void printDebugInfo(const Args&... t_message_parts);
+
         static void printNonCrashException(std::initializer_list<std::string> t_exception_parts);
         static void printPhraseOccurence(const FilePtr& t_candidate, const std::deque<char>& t_buffer,
-                                         unsigned int t_counter, unsigned int t_control_deque_offset, unsigned int t_phrase_length); 
+                                         unsigned int t_offset, unsigned int t_control_deque_offset, unsigned int t_phrase_length);
+		static char getSystemSlashDelimiter();
 
     protected:
         static std::string formatPrefixSuffix(const std::deque<char>& t_buffer, unsigned int t_from, unsigned int t_to);
@@ -65,9 +65,11 @@ namespace StringFinder {
 
     template <typename... Args>
     void Console::printDebugInfo(const Args&... t_message_parts) {
+#ifdef DEBUG_LOGGING
         std::string output = "[DEBUG] ";
         output += toString(t_message_parts...);
 		doConcurrentPrint(output);
+#endif
     }
 
     inline void Console::printNonCrashException(const std::initializer_list<std::string> t_exception_parts) {

@@ -31,7 +31,7 @@ namespace StringFinder {
 		std::string m_file_path;
 		std::string m_file_name;
 		std::ifstream m_file_stream;
-		short m_buffer_index = 1000;
+		unsigned short m_buffer_index = 1000;
 		constexpr static int BUFFER_LENGTH = 1000;
 		std::unique_ptr<char[]> m_read_buffer;
     };

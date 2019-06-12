@@ -1,14 +1,15 @@
 #include "console.hpp"
 
 
-void StringFinder::Console::printPhraseOccurence(const FilePtr& t_candidate, const std::deque<char>& t_buffer, const unsigned int t_counter, 
+void StringFinder::Console::printPhraseOccurence(const FilePtr& t_candidate, const std::deque<char>& t_buffer, const unsigned int t_offset, 
 const unsigned int t_control_deque_offset, const unsigned int t_phrase_length) {
-    std::string occurence = t_candidate->getFileName() + "(" + std::to_string(t_counter) + "): ";        
+    std::string occurence = t_candidate->getFileName() + "(" + std::to_string(t_offset) + "): ";
+	// compute how many chars after searched phrase we've actually got
     const unsigned int suffix_limit = (static_cast<unsigned int>(t_buffer.size()) > (t_control_deque_offset + t_phrase_length + 3)) ?
                                 (static_cast<unsigned long long>(t_control_deque_offset) + t_phrase_length + 3) : static_cast<unsigned int>(t_buffer.size());
-    if(t_control_deque_offset > 0) { 
+    if(t_control_deque_offset > 0) {  // check if we've got some chars for prefix and format prefix to string
         occurence += formatPrefixSuffix(t_buffer, 0, t_control_deque_offset);
-    }
+    } // now format suffix, add to string and print
     occurence += "..." + formatPrefixSuffix(t_buffer, t_phrase_length + t_control_deque_offset, suffix_limit);
 	doConcurrentPrint(occurence);
 }
@@ -33,10 +34,10 @@ std::string StringFinder::Console::formatPrefixSuffix(const std::deque<char>& t_
     return result;
 }
 
-char StringFinder::Console::getSystemSlash() {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+char StringFinder::Console::getSystemSlashDelimiter() {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__) // Windows version
 	return '\\';
-#else
+#else  // Linux version 
 	return '/';
 #endif
 }
