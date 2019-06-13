@@ -1,8 +1,10 @@
 #ifndef FILEQUEUE_HPP
 #define FILEQUEUE_HPP
 
+#include <condition_variable>
 #include <deque>
 #include <mutex>
+#include <thread>
 
 #include "file.hpp"
 
