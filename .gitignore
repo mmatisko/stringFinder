@@ -8,3 +8,6 @@
 /Debug
 /x64/Release
 *.vsp
+*.o
+app
+tests/
