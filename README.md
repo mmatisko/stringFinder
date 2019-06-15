@@ -20,6 +20,11 @@ Programme to search phrase in text file made as Eset C++ developer challenge.
 * Using IDE (like Clion), create project, add all source files (\*.cpp & \*.hpp).
 * make using terminal and choosed compiler (default is clang++).
 
+##### Makefile target:
+- make - compile programme
+- make clean - compile programme and delete temporary object files
+- make install - compile programme and add execute rights (chmod +x ./app)
+
 ## Run
 - Using run from Visual Studio or other IDE with set up parameters.
 - From terminal using command:
@@ -28,6 +33,7 @@ Programme to search phrase in text file made as Eset C++ developer challenge.
 ./app <path> <phrase>
 ```
 
-\<path> - path for file or directory with length in range \<3, 128>  
-\<phrase> - searched phrase in files with length in range \<3, 1000>  
+##### Arguments:
+- \<path> - path for file or directory with length in range \<3, 128>  
+- \<phrase> - searched phrase in files with length in range \<3, 1000>  
 
