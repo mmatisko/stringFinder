@@ -2,9 +2,11 @@
 
 Programme to search phrase in text file made as Eset C++ developer challenge.   
 
-* Portable. Was developed, compiled and tested on Windows 7 (Visual Studio 2019 with MSVC v142) & Fedora 30 (Clang 8.0).
-* Independent. Does not have any external dependencies, except C\++17 compiler support (C++14 using std\::experimental\::filesystem).
-* Multithreaded. Could use 3-X thread (main thread, Traversing path thread, X searching threads).   
+* Portable. Was developed, compiled and tested on:
+  * Windows 7 (Visual Studio 2019 with MSVC v142),
+  * Fedora 30 (Clang 8.0).
+* Independent. Does not have any external dependencies, except standard C\++17 compiler support (or C++14 using std\::experimental\::filesystem).
+* Multithreaded. Could use 3-X thread (main thread, traversing path thread, 1-X searching threads).   
 * Modularised. Could be added new searching algorithms or use Boost library for file traversing.
 
 ## Compile
