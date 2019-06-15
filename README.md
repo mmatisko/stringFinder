@@ -6,7 +6,7 @@ Programme to search phrase in text file made as Eset C++ developer challenge.
   * Windows 7 (Visual Studio 2019 with MSVC v142),
   * Fedora 30 (Clang 8.0).
 * Independent. Does not have any external dependencies, except standard C\++17 compiler support (or C++14 using std\::experimental\::filesystem).
-* Multithreaded. Could use 3-X thread (main thread, traversing path thread, 1-X searching threads).   
+* Multithreaded. Could use 3-X thread (main thread, traversing path thread, <1-X> searching threads).   
 * Modularised. Could be added new searching algorithms or use Boost library for file traversing.
 
 ## Compile
@@ -14,10 +14,10 @@ Programme to search phrase in text file made as Eset C++ developer challenge.
 
 #### From Windows:
 * Using Visual Studio 2019 solution file, compile and run.
-* Using other IDE (like Clion), create project, add all source files (\*.cpp & \*.hpp).
+* Using other IDE (like Clion), create project, add all source files (\*.cpp, \*.hpp).
 
 #### From Linux:
-* Using IDE (like Clion), create project, add all source files (\*.cpp & \*.hpp).
+* Using IDE (like Clion), create project, add all source files (\*.cpp, \*.hpp).
 * make using terminal and choosed compiler (default is clang++).
 
 ##### Makefile target:
@@ -30,7 +30,7 @@ Programme to search phrase in text file made as Eset C++ developer challenge.
 - From terminal using command:
 
 ```bash
-./app <path> <phrase>
+./stringFinder <path> <phrase>
 ```
 
 ##### Arguments:
