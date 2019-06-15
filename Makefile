@@ -4,11 +4,11 @@ CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedanti
 LDFLAGS = -lpthread
 
 SRC = main.cpp file.cpp searcher.cpp filesystem.cpp console.cpp filequeue.cpp
-OBJ = $(subst .cpp,.o,$(SRC))
+OBJ = $(subst .cpp, .o, $(SRC))
 
 all: tool
 tool: $(OBJ)
-	$(CXX) -o app $(OBJ) $(LDFLAGS)
+	$(CXX) -o stringFinder $(OBJ) $(LDFLAGS)
 
 main.o: main.cpp main.hpp 
 file.o: file.cpp file.hpp
