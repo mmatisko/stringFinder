@@ -11,6 +11,7 @@ Programme to search phrase in text file made as Eset C++ developer challenge.
 
 ## Compile
 - clone this repository
+- compile project
 
 #### From Windows:
 * Using Visual Studio 2019 solution file, compile and run.
@@ -22,7 +23,8 @@ Programme to search phrase in text file made as Eset C++ developer challenge.
 
 ##### Makefile target:
 - make - compile programme
-- make clean - compile programme and delete temporary object files
+- make clean - delete temporary object files
+- make distclean - delete temporary object files and executable 
 - make install - compile programme and add execute rights (chmod +x ./app)
 
 ## Run
