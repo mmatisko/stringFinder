@@ -3,7 +3,7 @@ RM = rm -f
 CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -g -O2 -pthread
 LDFLAGS = -lpthread
 
-SRC = main.cpp file.cpp searcher.cpp filesystem.cpp console.cpp filequeue.cpp
+SRC = console.cpp file.cpp filequeue.cpp filesystem.cpp main.cpp searcher.cpp
 OBJ = $(subst .cpp, .o, $(SRC))
 
 all: $(OBJ)
