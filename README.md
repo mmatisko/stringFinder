@@ -10,15 +10,15 @@ Program to search phrase in text file made as Eset C++ developer challenge.
 * Structured. Code divided to class using OOP and could be added new searching algorithms or use Boost library for file traversing.
 
 ## Compile
-- clone this repository,
+- clone this repository, and
 - compile project using one of method listed lower.
 
 #### From Windows:
-* Using Visual Studio 2019 solution file, compile and run.
-* Using other IDE (like Clion), create project, add all source files (\*.cpp, \*.hpp).
+* using Visual Studio 2019 solution file, compile and run, or
+* using other IDE (like Clion), create project, add all source files (\*.cpp, \*.hpp).
 
 #### From Linux:
-* Using IDE (like Clion), create project, add all source files (\*.cpp, \*.hpp).
+* using IDE (like Clion), create project, add all source files (\*.cpp, \*.hpp), or
 * make using terminal and choosed compiler (default is clang++).
 
 ##### Makefile target:
@@ -28,8 +28,8 @@ Program to search phrase in text file made as Eset C++ developer challenge.
 - make install - compile program and add execute rights (chmod +x ./app)
 
 ## Run
-- Using run from Visual Studio or other IDE with set up parameters.
-- From terminal using command:
+- using run from Visual Studio or other IDE with set up parameters, or
+- from terminal using command:
 
 ```bash
 ./stringFinder <path> <phrase>
