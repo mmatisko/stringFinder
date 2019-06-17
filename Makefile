@@ -4,7 +4,7 @@ CPPFLAGS = -std=c++17 -Wall -Werror -Wextra -Wshadow -Wnon-virtual-dtor -pedanti
 LDFLAGS = -lpthread
 
 SRC = console.cpp file.cpp filequeue.cpp filesystem.cpp main.cpp searcher.cpp
-OBJ = $(subst .cpp, .o, $(SRC))
+OBJ = $(subst .cpp,.o,$(SRC))
 
 all: $(OBJ)
 	$(CXX) -o stringFinder $(OBJ) $(LDFLAGS)
@@ -13,7 +13,7 @@ clean:
 	$(RM) $(OBJ)
 
 distclean: clean
-	$(RM) all
+	$(RM) stringFinder
 
 install: all ; 
 	chmod +x stringFinder
