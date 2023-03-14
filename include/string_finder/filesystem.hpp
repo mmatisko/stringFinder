@@ -6,15 +6,12 @@
 
 #include "filequeue.hpp"
 
-
-namespace StringFinder {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	namespace fs = std::experimental::filesystem::v1;
-#else
+namespace StringFinder
+{
 	namespace fs = std::filesystem;
-#endif  
 
-    class FileSystem {
+    class FileSystem
+    {
 	public:
 		FileSystem(const std::string& t_system_path, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
 		~FileSystem();

@@ -10,10 +10,12 @@
 
 #include "file.hpp"
 
-#define DEBUG_LOGGING 
+#define DEBUG_LOGGING
 
-namespace StringFinder {
-    class Console {
+namespace StringFinder
+{
+    class Console
+    {
     public:
 		// make object from class non-creatable
 		Console() = delete;
@@ -23,7 +25,7 @@ namespace StringFinder {
 		// make class non-movable
 		Console(const Console&& c) = delete;
 		Console& operator=(const Console&& c) = delete;
-		
+
 		static std::string toString(std::string t_input);
 		static std::string toString(const char t_inputs[]);
 		static std::string toString(char t_inputs[]);
@@ -40,31 +42,37 @@ namespace StringFinder {
         static std::string formatPrefixSuffix(const std::deque<char>& t_buffer, unsigned int t_from, unsigned int t_to);
 		static void doConcurrentPrint(const std::string& t_text);
     };
-	
-    inline std::string Console::toString(std::string t_input) {
+
+    inline std::string Console::toString(std::string t_input)
+    {
         return t_input;
     }
-	
-    inline std::string Console::toString(const char t_inputs[]) {
+
+    inline std::string Console::toString(const char t_inputs[])
+    {
         return std::string(t_inputs);
     }
-	
-    inline std::string Console::toString(char t_inputs[]) {
+
+    inline std::string Console::toString(char t_inputs[])
+    {
         return std::string(t_inputs);
     }
 
     template <typename T>
-    std::string Console::toString(T t_input) {
+    std::string Console::toString(T t_input)
+    {
         return std::to_string(t_input);
     }
 
     template <typename T, typename... Args>
-    std::string Console::toString(T t_input, Args... t_args) {
+    std::string Console::toString(T t_input, Args... t_args)
+    {
         return toString(t_input) + toString(t_args...);
     }
 
     template <typename... Args>
-    void Console::printDebugInfo(const Args&... t_message_parts) {
+    void Console::printDebugInfo(const Args&... t_message_parts)
+    {
 #ifdef DEBUG_LOGGING
         std::string output = "[DEBUG] ";
         output += toString(t_message_parts...);
@@ -72,13 +80,15 @@ namespace StringFinder {
 #endif
     }
 
-    inline void Console::printNonCrashException(const std::initializer_list<std::string> t_exception_parts) {
+    inline void Console::printNonCrashException(const std::initializer_list<std::string> t_exception_parts)
+    {
 		std::string output = "[EXCEPTION] ";
 		std::for_each(t_exception_parts.begin(), t_exception_parts.end(), [&output](const std::string& elem){ output += elem; });
 		doConcurrentPrint(output);
     }
 
-	inline void Console::doConcurrentPrint(const std::string& t_text) {
+	inline void Console::doConcurrentPrint(const std::string& t_text)
+    {
 		static std::mutex m_mutex;
 		std::unique_lock<std::mutex> locker(m_mutex);
 		std::cout << t_text << std::endl;

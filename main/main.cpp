@@ -1,13 +1,15 @@
-#include "console.hpp"
-#include "filesystem.hpp"
 #include "main.hpp"
-#include "searcher.hpp"
-#include <atomic>
 
+#include <string_finder/console.hpp>
+#include <string_finder/filesystem.hpp>
+#include <string_finder/searcher.hpp>
+
+#include <atomic>
 
 using namespace std;
 
-int main (const int argc, char *argv[]) {
+int main (const int argc, char *argv[])
+{
 	const clock_t begin = clock();
 
 	//check cmd args and process them
@@ -38,19 +40,23 @@ int main (const int argc, char *argv[]) {
 	StringFinder::Console::printDebugInfo("Elapsed time: ", elapsed_secs, "s");
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	auto a = getchar();
+	std::ignore = getchar();
 #endif
 }
 
-void cmdArgsTesting(const int argc, const char *argv[]) {
-	if (argc != 3) {
+void cmdArgsTesting(const int argc, const char *argv[])
+{
+	if (argc != 3)
+    {
 		throw length_error("Received wrong number of cmd params: " \
 			"should receive exactly 3 params: program name, path for searching and searched phrase!");
 	}
-	if (strlen(argv[1]) < 3 || strlen(argv[1]) > 128) {
+	if (strlen(argv[1]) < 3 || strlen(argv[1]) > 128)
+    {
 		throw length_error("Received cmd second parameter (phrase) with incorrect length, should be in range <3, 128>!");
 	}
-	if (strlen(argv[2]) < 3 || strlen(argv[2]) > 1000) {
+	if (strlen(argv[2]) < 3 || strlen(argv[2]) > 1000)
+    {
 		throw invalid_argument("Received third cmd parameter (path) with incorrect length, should be in range <3, 1000>!");
 	}
 }

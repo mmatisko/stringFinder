@@ -8,7 +8,6 @@
 
 #include "file.hpp"
 
-
 namespace StringFinder {
 	class FileQueue {
 	public:

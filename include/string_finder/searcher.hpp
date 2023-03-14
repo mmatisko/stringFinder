@@ -6,9 +6,10 @@
 
 #include "filequeue.hpp"
 
-
-namespace StringFinder {
-    class Searcher {
+namespace StringFinder
+{
+    class Searcher
+    {
 	public:
 		Searcher(std::string t_phrase, std::shared_ptr<FileQueue>& t_files, std::atomic<bool>& complete_flag);
 		~Searcher();
@@ -27,7 +28,7 @@ namespace StringFinder {
 		static void loadToBuffer(const FilePtr& t_candidate, std::deque<char>& t_buffer);
         bool iterateWholePhrase(const unsigned int& t_phrase_length, const unsigned int& t_next_string_part, std::string& t_temp_phrase) const;
         static bool comparePhrases(const std::string& t_phrase, const std::deque<char>& t_buffer, const unsigned int t_offset);
-    
+
 	private:
 		// own variables / constants
 		constexpr static unsigned int PART_SIZE = 10;

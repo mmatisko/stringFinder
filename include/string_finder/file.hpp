@@ -4,9 +4,10 @@
 #include <fstream>
 #include <memory>
 
-
-namespace StringFinder {
-    class File {
+namespace StringFinder
+{
+    class File
+    {
     public:
         explicit File(const std::string& t_file_path);
         ~File();
@@ -36,7 +37,7 @@ namespace StringFinder {
 		std::unique_ptr<char[]> m_read_buffer;
     };
 
-    typedef std::shared_ptr<File> FilePtr;
+    using FilePtr = std::shared_ptr<File>;
 }
 
 #endif //FILE_HPP
