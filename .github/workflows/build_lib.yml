@@ -1,0 +1,33 @@
+name: CMake Build Matrix
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+    build:
+        name: ${{ matrix.os }}-${{ github.workflow }}
+        runs-on: ${{ matrix.os }}-${{ github.workflow }}
+        strategy:
+            fail-fast: false
+            matrix:
+               os: [ubuntu-latest, windows-latest]
+
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                submodules: true
+
+            - uses: lukka/get-cmake@latest
+            - name: dir
+              run: find $RUNNER_WORKSPACE
+              shell: bash
+
+            - name: Generate project files using CMake
+              run: |
+                cmake -S. -B./build
+
+            - name: Build library (Release configuration)
+              run: |
+                cmake --build ./build --config Release
+
+            - name: List $RUNNER_WORKSPACE after build
+              run: find $RUNNER_WORKSPACE
+              shell: bash
