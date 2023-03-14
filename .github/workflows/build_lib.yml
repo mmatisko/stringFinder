@@ -12,6 +12,9 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
+            - name: Create Build Environment
+              run: cmake -E make_directory ${{runner.workspace}}/build
+
             - uses: lukka/get-cmake@latest
             - name: dir
               run: find $RUNNER_WORKSPACE
