@@ -2,23 +2,47 @@ name: CMake Library Build
 on: [push, workflow_dispatch]
 
 jobs:
-    build-lib:
-        name: ${{ matrix.os }}-${{ github.workflow }}
-        runs-on: ${{ matrix.os }}
+    build-linux:
+        name: Linux-${{ matrix.compiler[0] }}
+        runs-on: ubuntu-latest
         strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
+                compiler:
+                    - [gcc, g++]
+                    - [clang, clang++]
+        env:
+            CC: ${{ matrix.compiler[0] }}
+            CXX: ${{ matrix.compiler[1] }}
 
         steps:
             - uses: actions/checkout@v3
 
-            - uses: lukka/get-cmake@latest
+            - uses: lukka/get-cmake@v3.24.3
+            - name: List working directory content
+              shell: bash
+              run: |
+                find $RUNNER_WORKSPACE
+                cmake --version
+
+            - name: Generate project files using CMake
+              shell: bash
+              run: cmake -S . -B ${{ runner.workspace }}/build
+
+            - name: Build library (Release configuration)
+              working-directory: ${{ runner.workspace }}/build
+              shell: bash
+              run: cmake --build . --config Release
+
+    build-windows:
+        name: Windows
+        runs-on: windows-latest
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: lukka/get-cmake@v3.24.3
             - name: List working directory content
               run: find $RUNNER_WORKSPACE
-              shell: bash
-
-            - name: Print working directory
-              run: pwd
               shell: bash
 
             - name: Generate project files using CMake
@@ -35,7 +59,3 @@ jobs:
               working-directory: ${{ runner.workspace }}/build
               shell: bash
               run: cmake --build . --config Release
-
-            - name: List $RUNNER_WORKSPACE after build
-              run: find $RUNNER_WORKSPACE
-              shell: bash
