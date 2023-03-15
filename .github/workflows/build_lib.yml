@@ -2,60 +2,48 @@ name: CMake Library Build
 on: [push, workflow_dispatch]
 
 jobs:
-    build-linux:
-        name: Linux-${{ matrix.compiler[0] }}
-        runs-on: ubuntu-latest
+    build:
+        name: ${{ matrix.config.os }}-${{ matrix.config.cxx }}
+        runs-on: ${{ matrix.config.os }}
         strategy:
             matrix:
-                compiler:
-                    - [gcc, g++]
-                    - [clang, clang++]
+                config:
+                    - {
+                        os: ubuntu-latest,
+                        cc: gcc,
+                        cxx: g++
+                    }
+                    - {
+                        os: ubuntu-latest,
+                        cc: clang,
+                        cxx: clang++
+                    }
+                    - {
+                        os: windows-latest,
+                        cc: cl,
+                        cxx: cl
+                    }
         env:
-            CC: ${{ matrix.compiler[0] }}
-            CXX: ${{ matrix.compiler[1] }}
+            CC: ${{ matrix.config.cc }}
+            CXX: ${{ matrix.config.cxx }}
 
         steps:
             - uses: actions/checkout@v3
 
             - uses: lukka/get-cmake@v3.24.3
+
             - name: List working directory content
               shell: bash
-              run: |
-                find $RUNNER_WORKSPACE
-                cmake --version
+              run: find $RUNNER_WORKSPACE
 
-            - name: Generate project files using CMake
-              shell: bash
-              run: cmake -S . -B ${{ runner.workspace }}/build
+            - name: Run CMake
+              uses: lukka/run-cmake@v10.3
+              with:
+                  configurePreset: "ninja-multi"
+                  buildPreset: "ninja-multi"
+                  buildPresetAdditionalArgs: "['--config Release']"
 
-            - name: Build library (Release configuration)
-              working-directory: ${{ runner.workspace }}/build
-              shell: bash
-              run: cmake --build . --config Release
-
-    build-windows:
-        name: Windows
-        runs-on: windows-latest
-
-        steps:
-            - uses: actions/checkout@v3
-
-            - uses: lukka/get-cmake@v3.24.3
-            - name: List working directory content
+            - name: List $RUNNER_WORKSPACE after build
               run: find $RUNNER_WORKSPACE
               shell: bash
 
-            - name: Generate project files using CMake
-              shell: cmake -P {0}
-              run: |
-                cmake_path(SET build_path ${{ runner.workspace }}/build)
-                execute_process(
-                    COMMAND cmake
-                        -S .
-                        -B ${build_path}
-                )
-
-            - name: Build library (Release configuration)
-              working-directory: ${{ runner.workspace }}/build
-              shell: bash
-              run: cmake --build . --config Release
