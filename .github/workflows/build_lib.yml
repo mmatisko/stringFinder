@@ -12,20 +12,27 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
-            - name: Create Build Environment
-              run: cmake -E make_directory ${{runner.workspace}}/build
-
             - uses: lukka/get-cmake@latest
-            - name: dir
+            - name: List working directory content
               run: find $RUNNER_WORKSPACE
               shell: bash
 
-            - name: Generate project files using CMake
+            - name: Print working directory
+              run: pwd
               shell: bash
-              run: cmake -B ${{runner.workspace}}/build
+
+            - name: Generate project files using CMake
+              shell: cmake -P {0}
+              run: |
+                cmake_path(SET build_path ${{ runner.workspace }}/build)
+                execute_process(
+                    COMMAND cmake
+                        -S .
+                        -B ${build_path}
+                )
 
             - name: Build library (Release configuration)
-              working-directory: ${{runner.workspace}}/build
+              working-directory: ${{ runner.workspace }}/build
               shell: bash
               run: cmake --build . --config Release
 
