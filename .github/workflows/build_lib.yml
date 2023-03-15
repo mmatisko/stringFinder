@@ -37,11 +37,9 @@ jobs:
               run: find $RUNNER_WORKSPACE
 
             - name: Run CMake
-              uses: lukka/run-cmake@v10.3
+              uses: docker://lpenz/ghaction-cmake:0.21.1
               with:
-                  configurePreset: "ninja-multi"
-                  buildPreset: "ninja-multi"
-                  buildPresetAdditionalArgs: "['--config Release']"
+                  cmakeflags: '-DCMAKE_BUILD_TYPE=Release'
 
             - name: List $RUNNER_WORKSPACE after build
               run: find $RUNNER_WORKSPACE
